@@ -1,0 +1,21 @@
+#############
+## Python
+#############
+
+*.py[cod]
+
+# Packages
+*.egg
+*.egg-info
+/*.pyc
+build/
+eggs/
+parts/
+.idea/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+
+# Installer logs
+pip-log.txt
