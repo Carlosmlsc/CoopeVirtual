@@ -40,11 +40,13 @@ INSTALLED_APPS = (
     'accounting.accounts',
     'accounting.buyBill',
     'accounting.entries',
+    'accounting.financial_periods',
     'accounting.saleBill',
     'common.clients',
     'common.companies',
+    'common.currencies',
     'common.products',
-    'common.suppliers',  # preguntar sobre proveedores
+    'common.suppliers',  # todo preguntar sobre proveedores
 
 )
 
