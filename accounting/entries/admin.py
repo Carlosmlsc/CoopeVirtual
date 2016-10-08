@@ -22,3 +22,6 @@ class EntryDetailAdmin(admin.ModelAdmin):
 
     search_fields = ('id', 'entry', 'account', 'cash_flow', 'document', 'reference', 'credit',
                      'debit', 'balance', )
+
+    filter_horizontal = ('client', 'supplier')
+

@@ -28,7 +28,7 @@ class Company(models.Model):
 
 class CompanyPhoneNumber(models.Model):
 
-    phone_number = models.DecimalField(max_digits=20, decimal_places=0, default=0, verbose_name='ID Fiscal')
+    phone_number = models.DecimalField(max_digits=20, decimal_places=0, default=0, verbose_name='Teléfono')
 
     def __unicode__(self):
         return '%s' % self.phone_number
