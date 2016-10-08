@@ -41,7 +41,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
-        ordering = ['product_code']
+        ordering = ['code']
 
 
 class ProductDepartment(models.Model):

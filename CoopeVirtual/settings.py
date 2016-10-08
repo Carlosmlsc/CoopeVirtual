@@ -37,15 +37,16 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'accounting.accounts',
-    'accounting.buyBill',
+    'accounting.buyBills',
     'accounting.entries',
-    'accounting.financial_periods',
-    'accounting.saleBill',
+    'accounting.fiscalPeriods',
+    'accounting.saleBills',
     'common.clients',
     'common.companies',
     'common.currencies',
-    'common.products',
+    'common.products.apps.ProductsConfig',
     'common.suppliers',  # todo preguntar sobre proveedores
 
 )
@@ -93,12 +94,16 @@ DATABASES = {
 }
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',)
+}
+
 # Internationalization
-# https://docs.djangoproject.com/en/1.8/topics/i18n/
+# https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-MX'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Costa_Rica'
 
 USE_I18N = True
 
@@ -106,8 +111,11 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = '/admin/login/'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = (os.path.join(BASE_DIR, 'static'))

@@ -12,16 +12,16 @@ class Client(models.Model):
     passport = 'pas'
 
     ID_TYPE_CHOICES = ((person, 'Cédula Física'),
-                     (juridic, 'Cédula Jurídica'),
-                     (passport, 'Pasaporte'),
-                     )
+                       (juridic, 'Cédula Jurídica'),
+                       (passport, 'Pasaporte'),
+                       )
 
     company = models.ForeignKey(Company, verbose_name='Empresa')
     name = models.CharField(max_length=255, verbose_name='Nombre')
-    last_name = models.CharField(max_length=255, null=True, blank=True)
+    last_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Apellido')
     id_type = models.CharField(max_length=3, choices=ID_TYPE_CHOICES, default=person,
                                verbose_name='Tipo de Identificación')
-    id = models.CharField(max_length=255, null=True, blank=True, verbose_name='Num Identificación')
+    id_num = models.CharField(max_length=255, null=True, blank=True, verbose_name='Num Identificación')
     address = models.CharField(max_length=255, null=True, blank=True, verbose_name='Dirección')
     phone = models.CharField(max_length=20, null=True, blank=True, verbose_name='Teléfono')
     email = models.EmailField(null=True, blank=True, verbose_name='Email')

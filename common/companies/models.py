@@ -12,10 +12,10 @@ class Company(models.Model):
     financial_id = models.DecimalField(max_digits=20, decimal_places=0, default=0, verbose_name='ID Fiscal')
     financial_accounting_id = models.DecimalField(max_digits=20, decimal_places=0, default=0,
                                                   verbose_name='ID Fiscal Contable')
-    phone_numbers = models.ManyToManyField('CompanyPhoneNumber', null=True, verbose_name='Números de teléfono')
-    emails = models.ManyToManyField('CompanyEmail', null=True, verbose_name='Emails')
+    phone_numbers = models.ManyToManyField('CompanyPhoneNumber', blank=True, verbose_name='Números de teléfono')
+    emails = models.ManyToManyField('CompanyEmail', blank=True, verbose_name='Emails')
     logo = models.ImageField(blank=True, null=True, verbose_name='Logo')
-    slogan = models.CharField(max_length=255, blank=True, null=True, verbose_name='Eslogan')
+    slogan = models.CharField(max_length=255, blank=True, verbose_name='Eslogan')
 
     def __unicode__(self):
         return '%s' % self.comercial_name

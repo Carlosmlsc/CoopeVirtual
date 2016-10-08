@@ -16,6 +16,42 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from rest_framework import routers
+
+# Accounitng
+from accounting.accounts.api import AccountViewSet
+from accounting.entries.api import EntryViewSet, EntryDetailViewSet
+from accounting.fiscalPeriods.api import FiscalPeriodViewSet
+from accounting.saleBills.api import SaleBillViewSet, SaleBillDetailViewSet
+
+# Common
+from common.clients.api import ClientViewSet
+from common.companies.api import CompanyViewSet
+from common.currencies.api import CurrencyViewSet
+from common.products.api import ProductViewSet, ProductDepartmentViewSet, ProductSubDepartmentViewSet
+
+
+router = routers.DefaultRouter()
+
+# Accounting
+router.register(r'accounts', AccountViewSet)
+router.register(r'entries', EntryViewSet)
+router.register(r'entry_details', EntryDetailViewSet)
+router.register(r'fiscal_periods', FiscalPeriodViewSet)
+router.register(r'sale_bills', SaleBillViewSet)
+router.register(r'sale_bill_details', SaleBillDetailViewSet)
+
+# Common
+router.register(r'clients', ClientViewSet)
+router.register(r'companies', CompanyViewSet)
+router.register(r'currencies', CurrencyViewSet)
+router.register(r'products', ProductViewSet)
+router.register(r'product_departments', ProductDepartmentViewSet)
+router.register(r'product_subdepartments', ProductSubDepartmentViewSet)
+
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls',namespace='rest_framework')),
 ]
