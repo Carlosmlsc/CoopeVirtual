@@ -39,11 +39,12 @@ class EntryDetail(models.Model):
     # todo tipo? para ver si es cliente o proveedor?
     entry = models.ForeignKey('Entry', verbose_name='Asiento')
     account = models.ForeignKey(Account, verbose_name='Cuenta')
+    # todo date for detail
     client = models.ManyToManyField(Client, blank=True, verbose_name='Cliente')
     supplier = models.ManyToManyField(Supplier, blank=True, verbose_name='Proveedor')
     cash_flow = models.CharField(max_length=255, verbose_name='Flujo de Caja')
-    document = models.PositiveIntegerField(verbose_name='Documento')  # todo agregar link en el frontend
-    reference = models.PositiveIntegerField(verbose_name='Referencia')  # todo agregar link en el frontend
+    document = models.PositiveIntegerField(verbose_name='Documento')  # todo agregar link en el frontend char
+    reference = models.PositiveIntegerField(verbose_name='Referencia')  # todo agregar link en el frontend char
     credit = models.FloatField(verbose_name='Debe')
     debit = models.FloatField(verbose_name='Haber')
     balance = models.FloatField(verbose_name='Diferencia')

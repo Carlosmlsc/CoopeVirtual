@@ -6,12 +6,13 @@ from django.db import models
 
 class Company(models.Model):
 
+    # todo foreing key user
     commercial_name = models.CharField(max_length=100, null=True, verbose_name='Nombre Comercial')
     company_name = models.CharField(max_length=100, null=True, verbose_name='Razón Social')
     contact = models.CharField(max_length=100, null=True, verbose_name='Contacto')
-    financial_id = models.DecimalField(max_digits=20, decimal_places=0, default=0, verbose_name='ID Fiscal')
+    financial_id = models.DecimalField(max_digits=20, decimal_places=0, default=0, verbose_name='ID Fiscal')  # todo text
     financial_accounting_id = models.DecimalField(max_digits=20, decimal_places=0, default=0,
-                                                  verbose_name='ID Fiscal Contable')
+                                                  verbose_name='ID Fiscal Contable')  # todo text
     phone_numbers = models.ManyToManyField('CompanyPhoneNumber', blank=True, verbose_name='Números de teléfono')
     emails = models.ManyToManyField('CompanyEmail', blank=True, verbose_name='Emails')
     logo = models.ImageField(blank=True, null=True, verbose_name='Logo')
