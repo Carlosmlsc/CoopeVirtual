@@ -1,0 +1,117 @@
+//
+   Created by emanuelziga on 30/8/16.
+
+|{% extends "layout/base_layout.html" %}
+
+| {% load i18n static %}
+
+| {% block extrastyle %}
+|   <link rel="stylesheet" type="text/css" href="{% static "vendor/side-panel/css/style.css" %}" />
+|   <link rel="stylesheet" type="text/css" href="{% static "sales/poss/css/index.css" %}" />
+| {% endblock %}
+
+|{% block breadcrumbs %}
+<div class="breadcrumbs col-xs-12" style="height: 40px;">
+<a href="/">Inicio</a> &nbsp;  &rsaquo; &nbsp;  <span>Punto de Venta</span>
+</div>
+|{% endblock %}
+
+| {% block content %}
+
+.row(style="margin-top:5px").blur-div
+    .col-xs-12.col-sm-8.col-md-8.col-lg-8(style="padding:0")
+
+        div.bg-white.left-item.form-group
+            span: b Producto:
+            div.inner-addon.right-addon
+                i.fa.fa-barcode(style="padding-right:30px")
+                button.btn.btn-success.product-search-btn(style="height:48px; width:48px; "): span: i.fa.fa-search(style="padding-bottom:8px")
+                input(type="number" placeholder="Ingrese el Código del Producto").form-control
+
+        div.bg-white.left-item.product-table(style="margin-top:10px")
+            table.table
+                thead: tr
+                    th Cód
+                    th Art
+                    th Can
+                    th P.Un
+                    th Des%
+                    th IV
+                    th Sub
+                    th
+                tbody.table-body
+                    |{% for i in "xxxxxxxxxxxxxxxx" %}
+                    tr
+                        td 1001
+                        td Arroz Luisiana kilogramo 99%
+                        td 10
+                        td 1730.85
+                        td(style="padding:0;width:6%"): input(type="number" style="width:95%; height:100%; padding:0; border:0px;")
+                        td 13%
+                        td 17308.5
+                        td(style="text-aling:center"): span.fa.fa-trash
+                    |{% endfor %}
+
+
+    .col-xs-12.col-sm-4.col-md-4.col-lg-4.side-div(style="padding:0")
+        div.col-xs-12(style="padding:0")
+            div.bg-white.right-item(style="height:160px")
+                span: b Datos del Cliente:&nbsp&nbsp&nbsp
+                    span: i.fa.fa-edit.btn-client-search
+                br
+                br
+                div
+                    .col-xs-2(style="padding:0")
+                        img.avatar.btn-client-search(src='/static/img/profile.jpg')
+                    .col-xs-10(style="padding:0")
+                        span: b Nombre :&nbsp
+                        span Emanuel Zúñiga Infante
+                        br
+                        span: b Crédito &nbsp :&nbsp
+                        span: i
+                                span.has-credit-icon.fa.fa-check-square
+                                //span.fa.fa-times-circle
+
+                        br
+                        span: b Balance &nbsp:&nbsp
+                        span.credit-status.credit-negative ₡ 9,999,999.00
+
+        div.col-xs-12(style="padding:0")
+            div.bg-white.right-item
+                span: b Totales:
+                br
+                br
+                table.table.table-totals
+                    tbody
+                        tr: th Descuento %
+                            td(class='price', style="padding:0"): input(type="number" style="width:50%;height:100%; padding:0 0 0 10px; border:0px;")
+                        tr: th IV:
+                            td(class='price') ₡ 0.00
+                        tr: th Sub-Total:
+                            td(class='price'): b ₡ 0
+
+                span: b Total:
+                    br
+                div
+                    h1.sale-total: span ₡10,123,850.00
+
+        div.col-xs-12(style="padding:0;")
+            div.bg-white.right-item
+                span: b Pago:
+                    br
+                div.btns
+                    button.btn.btn-default.btn-confirm(style="height:48px; width:49%; margin-top:10px ") Confirmar&nbsp&nbsp
+                        span: i.fa.fa-rotate-right(style="padding-bottom:8px")
+                    button.btn.btn-default.btn-pay(style="height:48px; width:49%; margin-top:10px ") Pagar&nbsp&nbsp
+                        span: i.fa.fa-credit-card(style="padding-bottom:8px")
+
+
+include sales/poss/side-search-product.jade
+include sales/poss/side-search-client.jade
+include sales/poss/side-pay.jade
+
+| {% endblock %}
+
+| {% block extrajs %}
+|   <script src="{% static 'sales/poss/js/index.js' %}"></script>
+| {% endblock %}

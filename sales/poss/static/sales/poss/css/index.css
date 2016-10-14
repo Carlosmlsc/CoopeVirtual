@@ -1,0 +1,172 @@
+
+.bg-white {
+    background-color: white;
+
+    margin:5px 25px 5px 25px;
+    padding:10px;
+}
+
+.bg-whitenop {
+    background-color: white;
+}
+
+.avatar{
+	width: 50px;
+	height: 50px;
+	-webkit-border-radius: 30px; /* Saf3+, Chrome */
+	border-radius: 30px; /* Opera 10.5, IE 9 */
+	/*-moz-border-radius: 30px;  Disabled for FF1+ */
+	}
+
+.product-table{
+    max-height:500px;
+    overflow-y: auto;
+
+}
+
+th {
+    background-color: #333333;
+    color: white;
+    font-weight: normal;
+}
+
+.form-control{
+    width: 87%
+}
+
+.inner-addon{
+
+  position: relative;
+}
+
+/* style icon */
+.inner-addon .glyphicon{
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+
+}
+
+.inner-addon .btn{
+    position: absolute;
+    padding-top: 10px;
+    font-size: 15px;
+}
+
+.inner-addon .fa-barcode{
+    position: absolute;
+    padding-top: 15px;
+    pointer-events: none;
+    font-size: 20px;
+}
+
+.right-addon .btn{
+
+  right: 0px;
+}
+
+.right-addon .fa-barcode{
+
+  right: 30px;
+}
+
+/* align icon */
+.left-addon .glyphicon{
+
+  left:  10px;
+}
+
+.right-addon .glyphicon{
+
+  right: 20px;
+}
+
+/* add padding  */
+.left-addon input{
+
+  padding-left:  30px;
+}
+.right-addon input{
+
+  padding-right: 30px;
+}
+
+.table{
+    font-size: 65%;
+}
+.table-totals{
+        font-size: 80%;
+    }
+.table-totals tr th{
+    width: 100px;
+
+}
+.credit-positive{
+    font-size: 15px;
+    font-weight: bolder;
+    color: #5cb85c;
+}
+
+.credit-negative{
+    font-size: 18px;
+    font-weight: bolder;
+    color: #993300;
+}
+
+.sale-total{
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 28px;
+}
+
+.fa-check-square{
+    color: #5cb85c;
+}
+
+.fa-times-circle{
+    color: #993300;
+}
+
+.btn-default:hover{
+    background-color: #666666;
+    color: white;
+}
+
+@media (min-width: 768px) {
+    .bg-white{
+      margin:5px 5px 5px 5px;
+    }
+    .left-item{
+        margin-left: 25px;
+    }
+    .right-item{
+        margin-right: 25px;
+    }
+    .form-control{
+        width: 90%;
+    }
+    .table {
+        font-size: 80%;
+    }
+    .table-totals{
+        font-size: 100%;
+    }
+
+}
+
+@media (min-width: 1200px) {
+
+    .form-control{
+    width: 95%;
+    }
+    .table{
+    font-size: 100%;
+    }
+    .table-totals{
+        font-size: 100%;
+    }
+
+}

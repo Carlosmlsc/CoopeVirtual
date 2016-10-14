@@ -1,0 +1,42 @@
+.cd-panel.cd-panel-pay.from-right
+    header.cd-panel-header
+        h1 Registro de Pago
+
+    .cd-panel-container
+        .cd-panel-content
+            .form-group
+                form.col-sm-12.form-horizontal(action="")
+                    .form-group
+                        .col-sm-3
+                            label(for="tipobusqueda") Tipo de búsqueda:
+                        .col-sm-9
+                            select.form-control#tipobusqueda(name="" )
+                                option(value="1") Descripción
+                    .form-group
+                        .col-sm-3
+                            label(for="busqueda") Búsqueda:
+                        .col-sm-9
+                            input(type="text").form-control#busqueda
+
+                    .form-group.col-sm-12
+                        .pull-right
+                        button(type="button").btn.btn-success.form-control.marginBtnAdd2#btnbusqueda(style="width: 160px") Buscar
+                            span.glyphicon.glyphicon-search
+
+                form.col-sm-12.form-horizontal(action="")
+                    .form-group
+                        .col-sm-12
+                            table.table.table-bordered.table-hover#tablabusqueda
+                                thead
+                                    tr
+                                        th Código
+                                        th Descripción
+                                        th En planta
+                                        th Precio
+                                        th Agregar
+                                tbody
+
+                    .form-group.col-sm-12
+                        .pull-right
+                        button(type="button").btn.btn-danger.form-control.marginBtnAdd2.btntest#btncerrarbuscarpay(style="width: 160px") Regresar
+                            span.glyphicon.glyphicon-menu-left

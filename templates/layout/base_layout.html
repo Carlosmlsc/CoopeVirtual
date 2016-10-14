@@ -1,0 +1,104 @@
+{% load i18n admin_static %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="description" content="CoopeVirtual APP">
+    <meta name="author" content="Emanuel Zuniga Infante">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>POS</title>
+
+{#    <link rel="stylesheet" type="text/css" href="{% static "css/reset.css" %}" />#}
+{#    <link rel="stylesheet" type="text/css" href="{% static "layout/css/normalize.css" %}" />#}
+    <link rel="stylesheet" type="text/css" href="{% static "vendor/bootstap/css/bootstrap.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "vendor/slidebars/css/slidebars.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "vendor/font-awesome-4.3.0/css/font-awesome.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "layout/css/index.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "layout/css/fixes.css" %}" />
+
+    {% block extrastyle %}{% endblock %}
+</head>
+<body>
+
+<nav canvas="" style="text-align: center">
+    <div>
+        <div class="float-left" style="margin:20px 0 0 40px">
+            <span class="button js-toggle-main-menu"><i class="fa fa-bars"></i> <span class="text">Menu</span></span>
+        </div>
+
+
+        <a href="/"><img id="logo" src="/static/img/pos.png" alt="POS" style="margin-right: 12%; width: 200px;"></a>
+    </div>
+
+</nav>
+
+
+<div canvas="container" >
+
+    <div class="col-xs-12" style="padding: 0;" >
+
+            {% block breadcrumbs %}
+                <div class="breadcrumbs col-xs-12">
+                    <div id="user-tools" class="pull-right" style="margin-right: 50px;">
+                        {% block welcome-msg %}
+                        {% trans 'Welcome,' %}
+                        <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+                        {% endblock %}
+                        {% block userlinks %}
+                        {% if user.has_usable_password %}
+                        <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+                        {% endif %}
+                        <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+                        {% endblock %}
+                    </div>
+                </div>
+            {% endblock %}
+
+            {% block messages %}
+            {% if messages %}
+                <ul class="messagelist">{% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+                {% endfor %}</ul>
+            {% endif %}
+            {% endblock messages %}
+            <div id="page-content-wrapper col-xs-12">
+            <div >
+                {% block pretitle %}{% endblock %}
+                {% block content_title %}{% if title %}<h3 class="page_title">{{ title }}</h3>{% endif %}{% endblock %}
+                {% block content %}
+                {% block object-tools %}{% endblock %}
+                {{ content }}
+                {% endblock %}
+                {% block sidebar %}{% endblock %}
+                <br class="clear" />
+            </div>
+            </div>
+	</div>
+</div>
+
+<div off-canvas="main-menu left reveal">
+	<img id="logo-menu" src="/static/img/pos.png" alt="POS" style="width: 150px;">
+
+
+    <ul class="menu small">
+		<li><a href="/"><span class="fa fa-home"></span> Inicio</a></li>
+		<li><a href="/pos/"><span class="fa fa-shopping-cart"></span> Punto de Venta</a></li>
+{#		<li><a href="/bill/create/" ><span class="fa fa-list"></span> Crear Factura</a></li>#}
+{#		<li><a href="/request/create/"><span class="fa fa-truck"></span> Crear Pedido</a></li>#}
+{#		<li><a href="/report/create/"><span class="fa fa-bar-chart"></span> Generar Reportes</a></li>#}
+		<li><a href="/admin/"><span class="fa fa-area-chart"></span> Sitio Administrador</a></li>
+        <li><a href="/admin/logout/"><span class="fa fa-power-off"></span> Cerrar sesión</a></li>
+
+	</ul>
+</div>
+
+<script src="{% static 'vendor/jQuery/js/jquery-2.1.4.js' %}"></script>
+<script src="{% static 'vendor/bootstap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'vendor/slidebars/js/slidebars.min.js' %}"></script>
+<script src="{% static 'layout/js/controller.js' %}"></script>
+{% block extrajs %}{% endblock %}
+</body>
+</html>

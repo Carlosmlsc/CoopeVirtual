@@ -8,6 +8,7 @@ from .models import Entry, EntryDetail
 
 @admin.register(Entry)
 class EntryAdmin(admin.ModelAdmin):
+
     list_display = ('id', 'entry_number', 'company', 'fiscal_period', 'date', 'cost_center', 'currency', 
                     'exchange_rate', 'status', 'typing_user', 'auth_user',)
     
@@ -17,11 +18,10 @@ class EntryAdmin(admin.ModelAdmin):
 
 @admin.register(EntryDetail)
 class EntryDetailAdmin(admin.ModelAdmin):
-    list_display = ('id',  'account', 'cash_flow', 'document', 'reference', 'credit',
-                    'debit', 'balance', )
 
-    search_fields = ('id', 'entry', 'account', 'cash_flow', 'document', 'reference', 'credit',
-                     'debit', 'balance', )
+    list_display = ('id',  'account', 'cash_flow', 'document', 'reference', 'credit', 'debit', 'balance', )
+
+    search_fields = ('id', 'entry', 'account', 'cash_flow', 'document', 'reference', 'credit', 'debit', 'balance', )
 
     filter_horizontal = ('client', 'supplier')
 
