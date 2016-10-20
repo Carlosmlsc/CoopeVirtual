@@ -32,7 +32,7 @@ class Client(models.Model):
     credit_days = models.PositiveIntegerField(default=30, null=True, blank=True, verbose_name='Días de Crédito')
 
     def __unicode__(self):
-        return '%s %s' % (self.client_name, self.client_last_name)
+        return '%s %s' % (self.name, self.last_name)
 
     class Meta:
         verbose_name = 'Cliente'

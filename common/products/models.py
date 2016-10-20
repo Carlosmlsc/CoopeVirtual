@@ -36,7 +36,7 @@ class Product(models.Model):
     sellprice = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name='Precio de Venta ₡')
 
     def __unicode__(self):
-        return '%s' % self.product_description
+        return '%s' % self.description
 
     class Meta:
         verbose_name = 'Producto'
@@ -50,7 +50,7 @@ class ProductDepartment(models.Model):
     code = models.CharField(max_length=2, unique=True, verbose_name='Identificador de Familia')
 
     def __unicode__(self):
-        return '%s' % self.productdepartment_name
+        return '%s' % self.name
 
     class Meta:
         verbose_name = 'Familia'
@@ -65,7 +65,7 @@ class ProductSubDepartment(models.Model):
     code = models.CharField(max_length=2, verbose_name='Identificador de Sub-Familia')
 
     def __unicode__(self):
-        return '%s' % self.productsubdepartment_name
+        return '%s' % self.name
 
     class Meta:
         verbose_name = 'Sub-Familia'

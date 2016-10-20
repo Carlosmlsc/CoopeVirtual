@@ -113,13 +113,13 @@ th {
     color: #993300;
 }
 
-.sale-total{
+.sale-total-div{
     background-color: #5cb85c;
     color: white;
     padding: 10px;
     text-align: center;
-    font-weight: bolder;
-    font-size: 28px;
+    font-weight: 500;
+    font-size: 32px;
 }
 
 .fa-check-square{
@@ -160,7 +160,7 @@ th {
 @media (min-width: 1200px) {
 
     .form-control{
-    width: 95%;
+    width: 93%;
     }
     .table{
     font-size: 100%;

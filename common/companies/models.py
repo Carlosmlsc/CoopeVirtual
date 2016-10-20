@@ -19,7 +19,7 @@ class Company(models.Model):
     slogan = models.CharField(max_length=255, blank=True, verbose_name='Eslogan')
 
     def __unicode__(self):
-        return '%s' % self.comercial_name
+        return '%s' % self.commercial_name
 
     class Meta:
         verbose_name = 'Empresa'
@@ -45,7 +45,7 @@ class CompanyEmail(models.Model):
     email = models.EmailField(verbose_name='Email')
 
     def __unicode__(self):
-        return '%s' % self.phone_number
+        return '%s' % self.email
 
     class Meta:
         verbose_name = 'Email'

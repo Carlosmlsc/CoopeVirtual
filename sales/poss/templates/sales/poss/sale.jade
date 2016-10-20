@@ -26,7 +26,7 @@
             div.inner-addon.right-addon
                 i.fa.fa-barcode(style="padding-right:30px")
                 button.btn.btn-success.product-search-btn(style="height:48px; width:48px; "): span: i.fa.fa-search(style="padding-bottom:8px")
-                input(type="number" placeholder="Ingrese el Código del Producto").form-control
+                input(type="text" placeholder="Ingrese el Código del Producto").form-control.product_code_field
 
         div.bg-white.left-item.product-table(style="margin-top:10px")
             table.table
@@ -40,17 +40,17 @@
                     th Sub
                     th
                 tbody.table-body
-                    |{% for i in "xxxxxxxxxxxxxxxx" %}
-                    tr
-                        td 1001
-                        td Arroz Luisiana kilogramo 99%
-                        td 10
-                        td 1730.85
-                        td(style="padding:0;width:6%"): input(type="number" style="width:95%; height:100%; padding:0; border:0px;")
-                        td 13%
-                        td 17308.5
-                        td(style="text-aling:center"): span.fa.fa-trash
-                    |{% endfor %}
+                    //|{% for i in "xxxxxxxxxxxxxxxx" %}
+                    //tr
+                    //    td 1001
+                    //    td Arroz Luisiana kilogramo 99%
+                    //    td 10
+                    //    td 1730.85
+                    //    td(style="padding:0;width:6%"): input(type="number" style="width:95%; height:100%; padding:0; border:0px;")
+                    //    td 13%
+                    //    td 17308.5
+                    //    td(style="text-aling:center"): span.fa.fa-trash
+                    //|{% endfor %}
 
 
     .col-xs-12.col-sm-4.col-md-4.col-lg-4.side-div(style="padding:0")
@@ -84,16 +84,16 @@
                 table.table.table-totals
                     tbody
                         tr: th Descuento %
-                            td(class='price', style="padding:0"): input(type="number" style="width:50%;height:100%; padding:0 0 0 10px; border:0px;")
-                        tr: th IV:
-                            td(class='price') ₡ 0.00
+                            td(class='sale_global_discount', style="padding:0"): input(type="number" style="width:50%;height:100%; padding:0 0 0 10px; border:0px;")
                         tr: th Sub-Total:
-                            td(class='price'): b ₡ 0
+                            td(class='price sale_subtotal') ₡ 0
+                        tr: th IV:
+                            td(class='price sale_iv_amount') ₡ 0.00
 
                 span: b Total:
                     br
                 div
-                    h1.sale-total: span ₡10,123,850.00
+                    h1.sale-total-div: span.sale_total.price ₡0
 
         div.col-xs-12(style="padding:0;")
             div.bg-white.right-item
@@ -114,4 +114,5 @@ include sales/poss/side-pay.jade
 
 | {% block extrajs %}
 |   <script src="{% static 'sales/poss/js/index.js' %}"></script>
+|   <script src="{% static 'vendor/priceFormat/js/PriceFormat.js' %}"></script>
 | {% endblock %}
