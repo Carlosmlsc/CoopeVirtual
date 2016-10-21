@@ -8,6 +8,8 @@ var saleList = [];
 
 //GLOBAL SELECTORS
 //------------------------------------------------------------------------------------------
+var html = $('html');
+
 var product_panel = $('.cd-panel-search-product');
 var client_panel = $('.cd-panel-search-client');
 var pay_panel = $('.cd-panel-pay');
@@ -231,6 +233,8 @@ function updateTotals() {
 
 function searchProduct(text){
 
+    $('.table-body-product-search').html('');
+
     var products = JSON.parse(localStorage.Products);
     var description;
 
@@ -253,17 +257,47 @@ function searchProduct(text){
         });
 
         if (control == true){
-            addToSearhTable(products[i]);
+            addToSearchTable(products[i]);
         }
 
     });
 
 
+
 }
 
-function addToSearhTable(product){
+function addToSearchTable(product){
 
-    
+    var code  = product.code;
+    var desc = product.description;
+    var price = parseFloat(product.sellprice).toFixed(2);
+    var inventory;
+
+
+    if(product.useinventory){
+        inventory = product.inventory;
+    }
+    else{
+        inventory = '-';
+    }
+
+    var newRow=`<tr class="${code}">
+                    <td>${code}</td>
+                    <td>${desc}</td>
+                    <td>${inventory}</td>
+                    <td class="price">${price}</td>
+                    <td style="text-align: center; padding:0; width:5%" class="inner-addon">
+                    <i class="fa fa-plus select_product_search_row"></i></td>
+                </tr>`;
+
+    $('.table-body-product-search').append(newRow);
+
+     $('.price').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+
 
 }
 
@@ -346,6 +380,7 @@ function browserObjectEvents(){
         event.preventDefault();
         product_panel.addClass('is-visible');
         blurElement('.blur-div',2);
+
     });
 
     product_panel.on('click', function(event){
@@ -414,7 +449,7 @@ function browserObjectEvents(){
          }
     });
 
-    // EVENTS SEARCH PRODUCT
+    // EVENTS PRODUCT SEARCH ACTIONS
 
     $('#btnbusqueda').on('click', function(event){
 
@@ -429,7 +464,39 @@ function browserObjectEvents(){
             e.preventDefault();
             searchProduct($('#busqueda').val());
         }
+
+
+
     });
+
+    html.on('click','.select_product_search_row', function (){
+
+        event.preventDefault();
+
+        var row=$(this).closest("tr");
+
+        var productId = row.attr('class');
+
+        product_code_field.val(productId);
+
+        product_panel.removeClass('is-visible');
+
+        blurElement('.blur-div',0);
+
+        $('.table-body-product-search').html('');
+
+        $('#busqueda').val('');
+
+        product_code_field.focus();
+
+    });
+
+    Mousetrap.bind('mod b', function (e) {
+        e.preventDefault();
+        product_panel.addClass('is-visible');
+        blurElement('.blur-div',2);
+    })
+
 
 
 }// BROWSER EVENTS ENDS

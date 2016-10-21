@@ -26,7 +26,7 @@
             div.inner-addon.right-addon
                 i.fa.fa-barcode(style="padding-right:30px")
                 button.btn.btn-success.product-search-btn(style="height:48px; width:48px; "): span: i.fa.fa-search(style="padding-bottom:8px")
-                input(type="text" placeholder="Ingrese el Código del Producto").form-control.product_code_field
+                input(type="text" placeholder="Ingrese el Código del Producto").form-control.product_code_field.mousetrap
 
         div.bg-white.left-item.product-table(style="margin-top:10px")
             table.table
@@ -55,7 +55,7 @@
 
     .col-xs-12.col-sm-4.col-md-4.col-lg-4.side-div(style="padding:0")
         div.col-xs-12(style="padding:0")
-            div.bg-white.right-item(style="height:160px")
+            div.bg-white.right-item(style="height:160px; padding-bottom:0; margin-bottom:0")
                 span: b Datos del Cliente:&nbsp&nbsp&nbsp
                     span: i.fa.fa-edit.btn-client-search
                 br
@@ -64,20 +64,23 @@
                     .col-xs-2(style="padding:0")
                         img.avatar.btn-client-search(src='/static/img/profile.jpg')
                     .col-xs-10(style="padding:0")
+                        span: b Código :&nbsp
+                        input(type='text' style='width:100px')
+                        br
                         span: b Nombre :&nbsp
-                        span Emanuel Zúñiga Infante
+                        span Cliente de Contado
                         br
                         span: b Crédito &nbsp :&nbsp
                         span: i
                                 span.has-credit-icon.fa.fa-check-square
-                                //span.fa.fa-times-circle
+                                //span.not-credit-icon.fa.fa-times-circle
 
                         br
                         span: b Balance &nbsp:&nbsp
-                        span.credit-status.credit-negative ₡ 9,999,999.00
+                        span.credit-status.credit-negative ₡ 0
 
         div.col-xs-12(style="padding:0")
-            div.bg-white.right-item
+            div.bg-white.right-item(style='padding-top:0; margin-top:0')
                 span: b Totales:
                 br
                 br
@@ -115,4 +118,5 @@ include sales/poss/side-pay.jade
 | {% block extrajs %}
 |   <script src="{% static 'sales/poss/js/index.js' %}"></script>
 |   <script src="{% static 'vendor/priceFormat/js/PriceFormat.js' %}"></script>
+|   <script src="{% static 'vendor/mousetrap/js/mousetrap.min.js' %}"></script>
 | {% endblock %}
