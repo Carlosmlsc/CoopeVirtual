@@ -18,7 +18,8 @@ class Client(models.Model):
 
     company = models.ForeignKey(Company, verbose_name='Empresa')
     name = models.CharField(max_length=255, verbose_name='Nombre')
-    last_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Apellido')
+    last_name = models.CharField(max_length=255, null=True, blank=True, verbose_name='Apellidos')
+    code = models.CharField(max_length=10, null=True, verbose_name='Código')
     id_type = models.CharField(max_length=3, choices=ID_TYPE_CHOICES, default=person,
                                verbose_name='Tipo de Identificación')
     id_num = models.CharField(max_length=255, null=True, blank=True, verbose_name='Num Identificación')

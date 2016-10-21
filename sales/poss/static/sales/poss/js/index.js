@@ -19,11 +19,11 @@ var btn_client_search = $('.btn-client-search');
 var btn_pay = $('.btn-pay');
 
 var product_code_field = $('.product_code_field');
+var client_code_field = $('.client_code_field');
 
 var total = 0;
 var subtotal = 0;
 var iv_amount = 0 ;
-
 //------------------------------------------------------------------------------------------
 
 //MAIN
@@ -36,7 +36,7 @@ function mainSales() {
     //LOAD TO LOCAL STORAGE
     loadToLocalStorage();
 
-}//main
+}//MAIN FUNCTION
 //------------------------------------------------------------------------------------------
 
 //UTIL FUNCTIONS
@@ -62,7 +62,7 @@ function loadToLocalStorage(){
     localStorage.Clients=null;
     productsToMemory();
     clientsToMemory();
-}
+}//MAIN SAVE TO LOCAL STORAGE
 
 function productsToMemory() {
 
@@ -231,76 +231,6 @@ function updateTotals() {
     });
 }
 
-function searchProduct(text){
-
-    $('.table-body-product-search').html('');
-
-    var products = JSON.parse(localStorage.Products);
-    var description;
-
-    text = text.split('%');
-
-    $.each(products, function(i) {
-
-        description = products[i].description.toString();
-        var control = true;
-
-        $.each(text, function(i) {
-
-        var index = description.toLowerCase().indexOf(text[i].toLowerCase());
-
-        if (index == -1){
-            control = false;
-            return false;
-        }
-
-        });
-
-        if (control == true){
-            addToSearchTable(products[i]);
-        }
-
-    });
-
-
-
-}
-
-function addToSearchTable(product){
-
-    var code  = product.code;
-    var desc = product.description;
-    var price = parseFloat(product.sellprice).toFixed(2);
-    var inventory;
-
-
-    if(product.useinventory){
-        inventory = product.inventory;
-    }
-    else{
-        inventory = '-';
-    }
-
-    var newRow=`<tr class="${code}">
-                    <td>${code}</td>
-                    <td>${desc}</td>
-                    <td>${inventory}</td>
-                    <td class="price">${price}</td>
-                    <td style="text-align: center; padding:0; width:5%" class="inner-addon">
-                    <i class="fa fa-plus select_product_search_row"></i></td>
-                </tr>`;
-
-    $('.table-body-product-search').append(newRow);
-
-     $('.price').priceFormat({
-        prefix: '₡ ',
-        centsSeparator: ',',
-        thousandsSeparator: '.'
-    });
-
-
-}
-
 function rowUpdate(row, code, qty, array, ctrl, disc){
 
     var actual_qty = 0;
@@ -368,13 +298,211 @@ function rowUpdate(row, code, qty, array, ctrl, disc){
     return array;
 
 }
-//------------------------------------------------------------------------------------------
 
+function searchProduct(text){
+
+    $('.table-body-product-search').html('');
+
+    var products = JSON.parse(localStorage.Products);
+    var description;
+
+    text = text.split('%');
+
+    $.each(products, function(i) {
+
+        description = products[i].description.toString();
+        var control = true;
+
+        $.each(text, function(i) {
+
+        var index = description.toLowerCase().indexOf(text[i].toLowerCase());
+
+        if (index == -1){
+            control = false;
+            return false;
+        }
+
+        });
+
+        if (control == true){
+            addToSearchProductTable(products[i]);
+        }
+
+    });
+
+
+
+}
+
+function addToSearchProductTable(product){
+
+    var code  = product.code;
+    var desc = product.description;
+    var price = parseFloat(product.sellprice).toFixed(2);
+    var inventory;
+
+
+    if(product.useinventory){
+        inventory = product.inventory;
+    }
+    else{
+        inventory = '-';
+    }
+
+    var newRow=`<tr class="${code}">
+                    <td>${code}</td>
+                    <td>${desc}</td>
+                    <td>${inventory}</td>
+                    <td class="price">${price}</td>
+                    <td style="text-align: center; padding:0; width:5%" class="inner-addon">
+                    <i class="fa fa-plus select_product_search_row"></i></td>
+                </tr>`;
+
+    $('.table-body-product-search').append(newRow);
+
+     $('.price').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+
+
+}
+
+function searchClient(text){
+
+    $('.client-search-table-body').html('');
+
+    var clients = JSON.parse(localStorage.Clients);
+    var name;
+
+    text = text.split('%');
+
+    $.each(clients, function(i) {
+
+        name = clients[i].name.toString() + ' ' +clients[i].last_name.toString();
+        var control = true;
+
+        $.each(text, function(i) {
+
+        var index = name.toLowerCase().indexOf(text[i].toLowerCase());
+
+        if (index == -1){
+            control = false;
+            return false;
+        }
+
+        });
+
+        if (control == true){
+            addToSearchClientTable(clients[i]);
+        }
+
+    });
+
+}
+
+function addToSearchClientTable(client){
+
+    var code  = client.code;
+    var name = client.name.toString() + ' ' +client.last_name.toString();
+    var hasCredit;
+    var debt = parseFloat(client.debt).toFixed(2);
+
+
+
+    if(client.has_credit){
+        hasCredit = 'fa fa-check';
+    }
+    else{
+        hasCredit = 'fa fa-minus';
+    }
+
+    var newRow=`<tr class="${code}">
+                    <td>${code}</td>
+                    <td>${name}</td>
+                    <td><i class="${hasCredit}"></i></td>
+                    <td class="price">${debt}</td>
+                    <td style="text-align: center; padding:0; width:5%" class="inner-addon">
+                    <i class="fa fa-plus select_client_search_row"></i></td>
+                </tr>`;
+
+    $('.client-search-table-body').append(newRow);
+
+     $('.price').priceFormat({
+        prefix: '₡ ',
+        centsSeparator: ',',
+        thousandsSeparator: '.'
+    });
+
+
+}
+
+function setClient(code){
+
+    var clients = JSON.parse(localStorage.Clients);
+    var control = -1;
+    var name;
+    var hasCredit;
+    var debt;
+
+    $.each(clients, function(i) {
+
+        if(code == clients[i].code.toLowerCase()){
+            control=i;
+            return false
+        }
+
+    });
+
+    if (control != -1){
+
+        name = clients[control].name.toString() + ' ' +clients[control].last_name.toString();
+        hasCredit = clients[control].has_credit;
+        debt = clients[control].debt;
+
+        $('.client-name-span').html(name);
+
+        if(hasCredit){
+            $('.client-credit-span').removeClass('fa-times-circle');
+            $('.client-credit-span').addClass('fa-check-square');
+        }
+        else{
+            $('.client-credit-span').removeClass('fa-check-square');
+            $('.client-credit-span').addClass('fa-times-circle');
+        }
+
+        $('.debt-amount-span').html(parseFloat(debt).toFixed(2));
+        $('.debt-amount-span').addClass('credit-negative')
+
+
+
+    }
+    else{
+        $('.client-name-span').html('Cliente de Contado');
+
+        $('.client-credit-span').removeClass('fa-check-square');
+        $('.client-credit-span').addClass('fa-times-circle');
+
+        $('.debt-amount-span').html('-');
+
+        alertify.alert('Error', 'No existe un cliente con ese código');
+    }
+
+
+
+
+
+
+}
+
+//------------------------------------------------------------------------------------------
 //BROWSER EVENTS FUNCTIONS
 //------------------------------------------------------------------------------------------
 function browserObjectEvents(){
 
     //EVENTS PRODUCT SEARCH PANEL
+    //--------------------------------------------------------------------------------------
 
     btn_product_search.on('click', function(event){
         event.preventDefault();
@@ -397,7 +525,11 @@ function browserObjectEvents(){
             event.preventDefault();
     });
 
+    //---------------------------------------------------------------------------------------
+
     //EVENTS CLIENT SEARCH PANEL
+    //---------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------
 
     btn_client_search.on('click', function(event){
         event.preventDefault();
@@ -418,8 +550,10 @@ function browserObjectEvents(){
             blurElement('.blur-div',0);
             event.preventDefault();
     });
+    //---------------------------------------------------------------------------------------
 
     //EVENTS PAY PANEL
+    //---------------------------------------------------------------------------------------
 
     btn_pay.on('click', function(event){
         event.preventDefault();
@@ -440,6 +574,7 @@ function browserObjectEvents(){
             blurElement('.blur-div',0);
             event.preventDefault();
     });
+    //---------------------------------------------------------------------------------------
 
     //EVENTS PRODUCT CODE
 
@@ -450,6 +585,7 @@ function browserObjectEvents(){
     });
 
     // EVENTS PRODUCT SEARCH ACTIONS
+    //---------------------------------------------------------------------------------------
 
     $('#btnbusqueda').on('click', function(event){
 
@@ -490,12 +626,74 @@ function browserObjectEvents(){
         product_code_field.focus();
 
     });
+    //---------------------------------------------------------------------------------------
 
-    Mousetrap.bind('mod b', function (e) {
+    // EVENTS CLIENT SEARCH ACTIONS
+    //---------------------------------------------------------------------------------------
+
+    $('#client-search-btn').on('click', function(event){
+
+        event.preventDefault();
+        searchClient($('#client-search-input').val());
+
+    });
+
+    $('#client-search-input').on('keypress', function (e) {
+
+        if(e.which === 13){
+            e.preventDefault();
+            searchClient($('#client-search-input').val());
+        }
+
+    });
+
+    html.on('click','.select_client_search_row', function (){
+
+        event.preventDefault();
+
+        var row=$(this).closest("tr");
+
+        var clientCode = row.attr('class');
+
+        client_code_field.val(clientCode);
+
+        client_panel.removeClass('is-visible');
+
+        blurElement('.blur-div',0);
+
+        $('.client-search-table-body').html('');
+
+        $('#client-search-input').val('');
+
+        client_code_field.trigger('change');
+
+        product_code_field.focus();
+
+    });
+
+    html.on('change','.client_code_field', function () {
+
+        setClient(client_code_field.val());
+
+    });
+
+    //---------------------------------------------------------------------------------------
+
+    // MOUSETRAP SHORTCUTS
+    //---------------------------------------------------------------------------------------
+
+    Mousetrap.bind('mod p', function (e) {
         e.preventDefault();
         product_panel.addClass('is-visible');
         blurElement('.blur-div',2);
-    })
+    });
+
+    Mousetrap.bind('mod c', function (e) {
+        e.preventDefault();
+        client_panel.addClass('is-visible');
+        blurElement('.blur-div',2);
+    });
+    //---------------------------------------------------------------------------------------
 
 
 

@@ -7,36 +7,24 @@
             .form-group
                 form.col-sm-12.form-horizontal(action="")
                     .form-group
-                        .col-sm-3
-                            label(for="tipobusqueda") Tipo de búsqueda:
-                        .col-sm-9
-                            select.form-control#tipobusqueda(name="" )
-                                option(value="1") Descripción
-                    .form-group
-                        .col-sm-3
-                            label(for="busqueda") Búsqueda:
-                        .col-sm-9
-                            input(type="text").form-control#busqueda
+                        .col-xs-12
+                            label(for="client-search-input") Búsqueda por Nombre:
+                        .col-xs-7.col-sm-8
+                            input(type="text" style="width:100%").form-control#client-search-input
+                        .col-xs-2
+                            button(type="button").btn.btn-success.form-control.marginBtnAdd2#client-search-btn(style="height: 48px; width:48px")
+                                span.fa.fa-search
 
-                    .form-group.col-sm-12
-                        .pull-right
-                        button(type="button").btn.btn-success.form-control.marginBtnAdd2#btnbusqueda(style="width: 160px") Buscar
-                            span.glyphicon.glyphicon-search
-
-                form.col-sm-12.form-horizontal(action="")
+                form.col-sm-11.form-horizontal(action="")
                     .form-group
                         .col-sm-12
-                            table.table.table-bordered.table-hover#tablabusqueda
+                            table.table.table-bordered.table-hover#cliente-search-table
                                 thead
                                     tr
                                         th Código
-                                        th Descripción
-                                        th En planta
-                                        th Precio
-                                        th Agregar
-                                tbody
+                                        th Nombre
+                                        th Crédito
+                                        th Saldo
+                                        th
+                                tbody.client-search-table-body
 
-                    .form-group.col-sm-12
-                        .pull-right
-                        button(type="button").btn.btn-danger.form-control.marginBtnAdd2.btntest#btncerrarbuscarcliente(style="width: 160px") Regresar
-                            span.glyphicon.glyphicon-menu-left
