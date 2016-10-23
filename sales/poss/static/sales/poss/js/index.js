@@ -157,8 +157,6 @@ function prepareNewRow(products, qty) {
 
     var subt = (products[0].price*qty)*((100-products[0].discount)/100);
 
-    var pudisc = (products[0].price)*((100-products[0].discount)/100);
-
     var iv=0;
 
     if( products[0].usetaxes){
@@ -166,12 +164,12 @@ function prepareNewRow(products, qty) {
     }
 
     addNewRow(products[0].code, products[0].barcode, products[0].description, qty, products[0].price , subt,
-                      products[0].id, products[0].discount, iv, pudisc);
+                      products[0].id, products[0].discount, iv);
 
 
 }
 
-function addNewRow(code, barcode, desc, qty, uprice, subt, id, disc, iv, pudisc){
+function addNewRow(code, barcode, desc, qty, uprice, subt, id, disc, iv){
 
     saleList.push([code, barcode, qty, parseFloat(uprice), subt, desc, id, disc, iv]);
     // code, barcode, qty, unit price, subt, discount %, id, iv,
@@ -183,7 +181,7 @@ function addNewRow(code, barcode, desc, qty, uprice, subt, id, disc, iv, pudisc)
                     class="form-control ${code}_product_qty product_qty"/></td>
                     <td class="${code}_product_uprice price" >${parseFloat(uprice).toFixed(2)}</td>
                     <td style="padding:0; width:7%"><input value="${disc}" type="number" style="width:100%;border:0px" 
-                    class="form-control ${code}_product_disc no_disc"/></td>
+                    class="form-control ${code}_product_disc product_disc"/></td>
                     <td class="${code}_product_iv" >${iv}%</td>
                     <td class="${code}_product_subt price" >${subt.toFixed(2)}</td>
                     <td style="text-align: center; padding:0; width:5%" class="inner-addon">
@@ -205,7 +203,7 @@ function updateTotals() {
     // code, barcode, qty, unit price, subt, discount %, id, iv,
     $.each(saleList, function(i) {
 
-        subtotal = subtotal+saleList[i][4];//new_order_array[i][3] is the subt amount.
+        subtotal = subtotal+saleList[i][4];//saleList[i][4] is the subt amount.
         iv_amount=iv_amount+(saleList[i][4]*(saleList[i][8]/100));//saleList[i][8] is the IV
 
 
@@ -251,10 +249,9 @@ function rowUpdate(row, code, qty, array, ctrl, disc){
 
         new_subt = (actual_uprice*new_qty)*(1-(new_disc/100));
 
-        new_pudisc = (actual_uprice)*(1-(new_disc/100));
 
     }
-
+     // code, barcode, qty, unit price, subt, discount %, id, iv,
     if(ctrl == 2){//means update qty
 
         actual_uprice = array[row][3];
@@ -264,22 +261,18 @@ function rowUpdate(row, code, qty, array, ctrl, disc){
 
         new_subt = (actual_uprice*new_qty)*(1-(new_disc/100));
 
-        new_pudisc = (actual_uprice)*(1-(new_disc/100));
-
     }
-
 
     if(ctrl == 4){//means update discount
 
-        actual_uprice = array[row][2];
+        actual_uprice = array[row][3];
 
-        new_qty = array[row][1];
+        new_qty = array[row][2];
 
         new_disc =  disc;
 
         new_subt = (actual_uprice*new_qty)*(1-(new_disc/100));
 
-        new_pudisc = (actual_uprice)*(1-(new_disc/100));
     }
     //calculate values
 
@@ -290,7 +283,6 @@ function rowUpdate(row, code, qty, array, ctrl, disc){
     $(`.${code}_product_subt`).text(new_subt.toFixed(2));
 
     array[row][2] = new_qty;
-    array[row][3] = actual_uprice ;
     array[row][4] = new_subt;
     array[row][7] = new_disc;
 
@@ -529,7 +521,6 @@ function browserObjectEvents(){
 
     //EVENTS CLIENT SEARCH PANEL
     //---------------------------------------------------------------------------------------
-    //---------------------------------------------------------------------------------------
 
     btn_client_search.on('click', function(event){
         event.preventDefault();
@@ -678,6 +669,39 @@ function browserObjectEvents(){
     });
 
     //---------------------------------------------------------------------------------------
+    html.on('change','.product_qty', function () {
+
+        event.preventDefault();
+        var row = $(this).closest("tr");
+        var rowIndex = row.index();
+
+        var code = saleList[rowIndex][0];
+        var qty = $(`.${code}_product_qty`).val();
+        var disc = saleList[rowIndex][5];
+
+        rowUpdate(rowIndex, code, qty, saleList, 2,disc);
+
+        updateTotals();
+
+    });
+
+    html.on('change','.product_disc', function () {
+
+        event.preventDefault();
+        let row = $(this).closest("tr");
+        let rowIndex = row.index();
+
+        var code = saleList[rowIndex][0];
+        var qty = saleList[rowIndex][2];
+        var disc = $(`.${code}_product_disc`).val();
+
+        rowUpdate(rowIndex, code, qty, saleList, 4, disc);
+
+        updateTotals();
+
+    });
+    //---------------------------------------------------------------------------------------
+
 
     // MOUSETRAP SHORTCUTS
     //---------------------------------------------------------------------------------------
