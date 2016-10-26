@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from common.companies.models import Company
 
 
 class Product(models.Model):
@@ -14,7 +15,7 @@ class Product(models.Model):
                      (Bulk, 'A Granel'),
                      (Kit, 'En Paquete(kit)'),
                      )
-
+    company = models.ForeignKey(Company, null=True, verbose_name='Compañía')
     code = models.PositiveIntegerField(verbose_name='Código', unique=True, default=0)
     barcode = models.PositiveIntegerField(verbose_name='Código de Barras', blank=True, default=0)
     description = models.CharField(max_length=255, verbose_name='Descripción del producto', default=' ')

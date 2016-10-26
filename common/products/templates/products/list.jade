@@ -1,0 +1,57 @@
+|{% extends "layout/base_layout.html" %}
+
+| {% load i18n static %}
+
+| {% block extrastyle %}
+|   <link rel="stylesheet" type="text/css" href="{% static "vendor/dynaTables/css/jquery.dynatable.css" %}" />
+
+
+| {% endblock %}
+
+|{% block breadcrumbs %}
+<div class="breadcrumbs col-xs-12" style="height: 40px;">
+<a href="/">Inicio</a> &nbsp;  &rsaquo; &nbsp;  <span>Punto de Venta</span>
+</div>
+|{% endblock %}
+
+| {% block content %}
+
+.row(style="margin-top:60px; padding-left:40px").blur-div
+    .col-xs-11.col-sm-11.col-md-11.col-lg-11
+
+        div.bg-white.left-item.form-group
+            span: b Productos:
+
+        div.bg-white.left-item.product-table(style="margin-top:10px")
+            table.table.list-table
+                thead: tr
+                    th Cód
+                    th Art
+                    th Can
+                    th P.Un
+                    th Des%
+                    th IV
+                    th Sub
+                    th
+                tbody.table-body.list-table-body
+                    |{% for i in "xxxxxxxxxxxxxxxx" %}
+                    tr
+                        td 1001
+                        td Arroz Luisiana kilogramo 99%
+                        td 10
+                        td 1730.85
+                        td(style="padding:0;width:6%"): input(type="number" style="width:95%; height:100%; padding:0; border:0px;")
+                        td 13%
+                        td 17308.5
+                        td(style="text-aling:center"): span.fa.fa-trash
+                    |{% endfor %}
+
+| {% endblock %}
+
+| {% block extrajs %}
+|   <script src="{% static 'common/products/js/list.js' %}"></script>
+|   <script src="{% static 'vendor/priceFormat/js/PriceFormat.js' %}"></script>
+|   <script src="{% static 'vendor/mousetrap/js/mousetrap.min.js' %}"></script>
+|   <script src="{% static 'vendor/dynaTables/js/jquery.dynatable.js' %}"></script>
+| {% endblock %}
+

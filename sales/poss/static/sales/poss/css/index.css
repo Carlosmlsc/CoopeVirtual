@@ -1,4 +1,23 @@
 
+.table-product-selected {
+    background-color: #cacaca !important;
+    color:#000;
+    vertical-align: middle;
+    padding: 1.5em;
+}
+
+.table-product-selected input{
+    background-color: #cacaca !important;
+}
+
+.table-body tr:hover  {
+    background-color: #cabeb8 !important;
+}
+
+.table-body tr:hover input  {
+    background-color: #cacaca !important;
+}
+
 .bg-white {
     background-color: white;
 

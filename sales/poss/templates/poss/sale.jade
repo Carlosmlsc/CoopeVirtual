@@ -31,7 +31,7 @@
                 thead: tr
                     th Cód
                     th Art
-                    th Can
+                    th(style='width:10%') Can
                     th P.Un
                     th Des%
                     th IV
@@ -86,7 +86,7 @@
                 table.table.table-totals
                     tbody
                         tr: th Descuento %
-                            td(class='sale_global_discount', style="padding:0"): input(type="number" style="width:50%;height:100%; padding:0 0 0 10px; border:0px;")
+                            td(class='sale_global_discount', style="padding:0"): input.sale_global_discount_input(type="number" style="width:50%;height:100%; padding:0 0 0 10px; border:0px;")
                         tr: th Sub-Total:
                             td(class='price sale_subtotal') ₡ 0
                         tr: th IV:
@@ -108,9 +108,9 @@
                         span: i.fa.fa-credit-card(style="padding-bottom:8px")
 
 
-include sales/poss/side-search-product.jade
-include sales/poss/side-search-client.jade
-include sales/poss/side-pay.jade
+include poss/side-search-product.jade
+include poss/side-search-client.jade
+include poss/side-pay.jade
 
 | {% endblock %}
 

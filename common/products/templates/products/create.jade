@@ -1,0 +1,15 @@
+|{% extends "layout/base_layout.html" %}
+
+| {% load i18n static %}
+
+| {% block content %}
+
+form(action='' method='post')
+
+    |{% csrf_token %}
+    p
+        |{{ form.as_p }}
+
+    input(type='submit' value='Guardar')
+
+| {% endblock %}

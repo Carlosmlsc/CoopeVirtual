@@ -33,6 +33,9 @@ from common.clients.api import ClientViewSet
 from common.companies.api import CompanyViewSet
 from common.currencies.api import CurrencyViewSet
 from common.products.api import ProductViewSet, ProductDepartmentViewSet, ProductSubDepartmentViewSet
+from common.profiles.api import ProfileViewSet, UserViewSet
+
+from common.products.views import ProductCreate
 
 
 router = routers.DefaultRouter()
@@ -52,6 +55,8 @@ router.register(r'currencies', CurrencyViewSet)
 router.register(r'products', ProductViewSet)
 router.register(r'product_departments', ProductDepartmentViewSet)
 router.register(r'product_subdepartments', ProductSubDepartmentViewSet)
+router.register(r'profiles', ProfileViewSet)
+router.register(r'users', UserViewSet)
 
 
 urlpatterns = [
@@ -59,7 +64,10 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    url(r'^pos/$', TemplateView.as_view(template_name="sales/poss/sale.jade")),
+    url(r'product/add/$', ProductCreate.as_view(), name='product-add'),
+    url(r'product/list/$', TemplateView.as_view(template_name="products/list.jade")),
+
+    url(r'^pos/$', TemplateView.as_view(template_name="poss/sale.jade")),
     url(r'^$', TemplateView.as_view(template_name="layout/landing.jade")),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\

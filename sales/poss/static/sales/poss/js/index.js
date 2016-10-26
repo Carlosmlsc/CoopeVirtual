@@ -174,13 +174,13 @@ function addNewRow(code, barcode, desc, qty, uprice, subt, id, disc, iv){
     saleList.push([code, barcode, qty, parseFloat(uprice), subt, desc, id, disc, iv]);
     // code, barcode, qty, unit price, subt, discount %, id, iv,
 
-    var newRow=`<tr class="${code}">
+    var newRow=`<tr class="${code} product_row">
                     <td>${code}</td>
                     <td>${desc}</td>
-                    <td style="padding:0; width:8%"><input type="number" style="width:100%;border:0px" 
+                    <td style="padding:0; width:10%"><input type="number" style="width:100%;border:0px; padding: 0; text-align: center" 
                     class="form-control ${code}_product_qty product_qty"/></td>
                     <td class="${code}_product_uprice price" >${parseFloat(uprice).toFixed(2)}</td>
-                    <td style="padding:0; width:7%"><input value="${disc}" type="number" style="width:100%;border:0px" 
+                    <td style="padding:0; width:10%"><input value="${disc}" type="number" style="width:100%;border:0px; padding:0;text-align: center" 
                     class="form-control ${code}_product_disc product_disc"/></td>
                     <td class="${code}_product_iv" >${iv}%</td>
                     <td class="${code}_product_subt price" >${subt.toFixed(2)}</td>
@@ -199,6 +199,17 @@ function updateTotals() {
 
     subtotal=0;
     iv_amount= 0;
+    var generalDiscount ;
+
+    if ($('.sale_global_discount_input').val()){
+
+        generalDiscount = parseFloat($('.sale_global_discount_input').val());
+
+    }
+    else{
+        generalDiscount = 0;
+    }
+
 
     // code, barcode, qty, unit price, subt, discount %, id, iv,
     $.each(saleList, function(i) {
@@ -208,6 +219,9 @@ function updateTotals() {
 
 
     });
+
+    subtotal = subtotal*(1-(generalDiscount/100));
+    iv_amount=iv_amount*(1-(generalDiscount/100));
 
     total = subtotal+iv_amount;
 
@@ -231,61 +245,70 @@ function updateTotals() {
 
 function rowUpdate(row, code, qty, array, ctrl, disc){
 
-    var actual_qty = 0;
-    var actual_uprice = 0;
-    var new_qty = 0;
-    var new_subt = 0;
-    var new_disc = 0;
-    var new_pudisc = 0;
-
+    var actualQty = 0;
+    var actualUprice = 0;
+    var newQty = 0;
+    var newSubt = 0;
+    var newDisc = 0;
 
     if (ctrl == 1){//means add already existing product on table
 
-        actual_qty = array[row][2];
-        actual_uprice = array[row][3];
-        new_disc =  array[row][7];
+        actualQty = array[row][2];
+        actualUprice = array[row][3];
+        newDisc =  array[row][7];
 
-        new_qty = parseFloat(actual_qty) + parseFloat(qty);
+        newQty = parseFloat(actualQty) + parseFloat(qty);
 
-        new_subt = (actual_uprice*new_qty)*(1-(new_disc/100));
+        newSubt = (actualUprice*newQty)*(1-(newDisc/100));
 
 
     }
-     // code, barcode, qty, unit price, subt, discount %, id, iv,
+
     if(ctrl == 2){//means update qty
 
-        actual_uprice = array[row][3];
-        new_disc =  array[row][7];
 
-        new_qty = parseFloat(qty);
 
-        new_subt = (actual_uprice*new_qty)*(1-(new_disc/100));
+        actualUprice = array[row][3];
+        newDisc =  array[row][7];
+
+        newQty = parseFloat(qty);
+
+        newSubt = (actualUprice*newQty)*(1-(newDisc/100));
 
     }
 
     if(ctrl == 4){//means update discount
 
-        actual_uprice = array[row][3];
+        actualUprice = array[row][3];
 
-        new_qty = array[row][2];
+        newQty = array[row][2];
 
-        new_disc =  disc;
+        newDisc =  disc;
 
-        new_subt = (actual_uprice*new_qty)*(1-(new_disc/100));
+        newSubt = (actualUprice*newQty)*(1-(newDisc/100));
 
     }
-    //calculate values
 
+    if(newQty <= 0){
+
+        alertify.alert('Error', 'La cantidad no puede ser cero, ni menor a cero, el valor volverá a 1');
+
+        rowUpdate(row, code, 1, saleList, 2,0);
+
+        updateTotals();
+
+        return array;
+
+    }
 
     //update values
 
-    $(`.${code}_product_qty`).val(new_qty);
-    $(`.${code}_product_subt`).text(new_subt.toFixed(2));
+    $(`.${code}_product_qty`).val(newQty);
+    $(`.${code}_product_subt`).text(newSubt.toFixed(2));
 
-    array[row][2] = new_qty;
-    array[row][4] = new_subt;
-    array[row][7] = new_disc;
-
+    array[row][2] = newQty;
+    array[row][4] = newSubt;
+    array[row][7] = newDisc;
 
     return array;
 
@@ -700,6 +723,31 @@ function browserObjectEvents(){
         updateTotals();
 
     });
+
+     html.on('change','.sale_global_discount_input', function () {
+         console.log('entro');
+         updateTotals();
+     });
+
+
+    html.on('click','.remove_row', function () {
+
+        event.preventDefault();
+        var row=$(this).closest("tr");
+        var rowIndex = row.index();
+
+        saleList.splice( rowIndex,1 );
+
+        $(this).parent().parent().remove();
+
+        updateTotals();
+
+        if (saleList.length==0){
+
+        }
+
+    });
+
     //---------------------------------------------------------------------------------------
 
 
@@ -719,6 +767,69 @@ function browserObjectEvents(){
     });
     //---------------------------------------------------------------------------------------
 
+    // KEYBOARD SHORTCUTS
+    //---------------------------------------------------------------------------------------
+
+    html.on('click','.product_row', function (){
+        $('.table-product-selected').removeClass('table-product-selected');
+        $(this).addClass("table-product-selected");
+    });
+
+    $(document).on('keydown', function (e) {
+
+        var row=$('.table-product-selected');
+        var rowIndex = row.index();
+        var code;
+
+        if(e.which == 46){//MEAN DELETE KEY
+
+            if(rowIndex != -1){
+                saleList.splice( rowIndex,1 );
+
+                row.remove();
+
+                updateTotals();
+
+                if (saleList.length==0){
+
+                }
+            }
+
+        }
+
+        if(e.which == 107){//MEAN PLUS KEY
+
+            if(rowIndex != -1){
+
+                code = row.attr('class').split(' ')[0];
+
+                rowUpdate(rowIndex, code, 1, saleList, 1,0);
+
+                updateTotals();
+
+            }
+
+        }
+
+        if(e.which == 109){//MEAN PLUS KEY
+
+            if(rowIndex != -1){
+
+                code = row.attr('class').split(' ')[0];
+
+                rowUpdate(rowIndex, code, -1, saleList, 1,0);
+
+                updateTotals();
+
+            }
+
+        }
+
+    });
+
+    $(':input').focusin(function () {///ON ANY INPUT FOCUS DESELECT ALL ROWS
+        $('.table-product-selected').removeClass('table-product-selected');
+    })
 
 
 }// BROWSER EVENTS ENDS
