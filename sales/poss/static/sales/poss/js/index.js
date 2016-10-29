@@ -4,12 +4,12 @@ $(document).on('ready', mainSales );
 //GLOBAL VARS
 //------------------------------------------------------------------------------------------
 var saleList = [];
+const companyId = $('#company-id').html();
 //------------------------------------------------------------------------------------------
 
 //GLOBAL SELECTORS
 //------------------------------------------------------------------------------------------
 var html = $('html');
-
 var product_panel = $('.cd-panel-search-product');
 var client_panel = $('.cd-panel-search-client');
 var pay_panel = $('.cd-panel-pay');
@@ -62,11 +62,12 @@ function loadToLocalStorage(){
     localStorage.Clients=null;
     productsToMemory();
     clientsToMemory();
+
 }//MAIN SAVE TO LOCAL STORAGE
 
 function productsToMemory() {
 
-    $.get('/api/products/', function (data) {
+    $.get(`/api/products/?company=${companyId}`, function (data) {
 
         localStorage.Products=JSON.stringify(data);
     });
@@ -75,7 +76,7 @@ function productsToMemory() {
 
 function clientsToMemory() {
 
-    $.get('/api/clients/', function (data) {
+    $.get(`/api/clients/?company=${companyId}`, function (data) {
 
         localStorage.Clients=JSON.stringify(data);
     });

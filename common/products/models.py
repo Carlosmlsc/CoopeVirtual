@@ -16,7 +16,7 @@ class Product(models.Model):
                      (Kit, 'En Paquete(kit)'),
                      )
     company = models.ForeignKey(Company, null=True, verbose_name='Compañía')
-    code = models.PositiveIntegerField(verbose_name='Código', unique=True, default=0)
+    code = models.PositiveIntegerField(verbose_name='Código', default=0)
     barcode = models.PositiveIntegerField(verbose_name='Código de Barras', blank=True, default=0)
     description = models.CharField(max_length=255, verbose_name='Descripción del producto', default=' ')
     department = models.ForeignKey('ProductDepartment', on_delete=models.SET_NULL, null=True,
@@ -36,10 +36,8 @@ class Product(models.Model):
     discount = models.DecimalField(default=0, max_digits=4, decimal_places=2, verbose_name='Descuento %')
     sellprice = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name='Precio de Venta ₡')
 
-    def __unicode__(self):
-        return '%s' % self.description
-
     class Meta:
+        unique_together = (('company', 'code'), ('company', 'barcode'))
         verbose_name = 'Producto'
         verbose_name_plural = 'Productos'
         ordering = ['code']

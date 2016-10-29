@@ -36,6 +36,7 @@ class Client(models.Model):
         return '%s %s' % (self.name, self.last_name)
 
     class Meta:
+        unique_together = (('company', 'id_num'), ('company', 'code'))
         verbose_name = 'Cliente'
         verbose_name_plural = 'Clientes'
         ordering = ['id']

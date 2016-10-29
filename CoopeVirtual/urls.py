@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.contrib.auth.decorators import login_required, permission_required
+
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import TemplateView
@@ -64,10 +66,12 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    url(r'product/add/$', ProductCreate.as_view(), name='product-add'),
-    url(r'product/list/$', TemplateView.as_view(template_name="products/list.jade")),
+    url(r'products/', include('common.products.urls')),
+    url(r'products/add/$', ProductCreate.as_view(), name='product-add'),
+    url(r'products/list/$', ProductCreate.as_view(), name='product-add'),
 
-    url(r'^pos/$', TemplateView.as_view(template_name="poss/sale.jade")),
+
+    url(r'^pos/$', login_required(TemplateView.as_view(template_name="poss/sale.jade"))),
     url(r'^$', TemplateView.as_view(template_name="layout/landing.jade")),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
