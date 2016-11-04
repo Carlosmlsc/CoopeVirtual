@@ -15,7 +15,6 @@ body {
 }
 
 
-
 /* line 9, ../sass/_typography.scss */
 a,
 .link {
@@ -49,6 +48,10 @@ pre {
   padding: 10px;
   overflow-y: auto;
   margin: 20px 0;
+}
+
+.no-padding-left{
+  padding-left: 0;
 }
 
 /* line 39, ../sass/_typography.scss */
@@ -327,6 +330,14 @@ nav[canvas] .button span.text {
   top: 1px;
 }
 
+#nologo{
+  font-family: sans-serif;
+  font-size: 35px;
+  color: #333333;
+  font-weight: bold;
+  margin-right: 12%;
+}
+
 select {
    overflow: scroll;
 }
@@ -477,7 +488,17 @@ ol.breadcrumb li:last-child {
   #logo {
     max-width: 160px;
   }
+
+
 }
+
+@media (max-width: 620px) {
+
+  #nologo {
+   font-size: 15px;
+  }
+}
+
 
 /* line 37, ../sass/_buttons.scss */
 .button.red {

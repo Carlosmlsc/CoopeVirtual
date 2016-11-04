@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import os
+
+from django.conf import settings
 from django.db import models
 
 
@@ -15,7 +18,7 @@ class Company(models.Model):
                                                   verbose_name='ID Fiscal Contable')  # todo text
     phone_numbers = models.ManyToManyField('CompanyPhoneNumber', blank=True, verbose_name='Números de teléfono')
     emails = models.ManyToManyField('CompanyEmail', blank=True, verbose_name='Emails')
-    logo = models.ImageField(blank=True, null=True, verbose_name='Logo')
+    logo = models.ImageField(upload_to='static/img/', blank=True, null=True, verbose_name='Logo')
     slogan = models.CharField(max_length=255, blank=True, verbose_name='Eslogan')
 
     def __unicode__(self):

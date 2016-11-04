@@ -31,8 +31,12 @@
             <span class="button js-toggle-main-menu"><i class="fa fa-bars"></i> <span class="text">Menu</span></span>
         </div>
 
+    {% if user.profile.company.logo %}
+        <a href="/"><img id="logo" src="/{{ user.profile.company.logo }}" alt="POS" style="margin-right: 12%; width: 200px;"></a>
+    {% else %}
+        <a href="/" id="nologo">{{ user.profile.company.commercial_name }}</a>
+    {% endif %}
 
-        <a href="/"><img id="logo" src="/static/img/pos.png" alt="POS" style="margin-right: 12%; width: 200px;"></a>
     </div>
 
 </nav>
@@ -83,7 +87,11 @@
 </div>
 
 <div off-canvas="main-menu left reveal">
-	<img id="logo-menu" src="/static/img/pos.png" alt="POS" style="width: 150px;">
+    {% if user.profile.company.logo %}
+	    <img id="logo-menu" src="/{{ user.profile.company.logo }}" alt="POS" style="width: 150px;">
+    {% else %}
+        <h3 style="margin: 20px" >{{ user.profile.company.commercial_name }}</h3>
+    {% endif %}
 
 
     <ul class="menu small">
