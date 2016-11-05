@@ -45,7 +45,7 @@
                 tbody.table-body.list-table-body
                     |{% for product in products %}
                     tr
-                        td {{product.code}}
+                        td: a(href='/products/{{product.code}}/') {{product.code}}
                         td {{product.description}}
                         td {{product.barcode}}
                         td {{product.department.name}}

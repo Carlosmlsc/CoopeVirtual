@@ -9,11 +9,11 @@ from.models import Product, ProductDepartment, ProductSubDepartment
 class ProductAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'code', 'barcode', 'description', 'department', 'subdepartment', 'useinventory', 'inventory',
-                    'minimum', 'sellmethod', 'cost', 'autoprice', 'utility','price', 'usetaxes', 'taxes', 'discount',
+                    'minimum', 'unit', 'cost', 'autoprice', 'utility','price', 'usetaxes', 'taxes', 'discount',
                     'sellprice',)
 
     search_fields = ('id', 'code', 'barcode', 'description', 'department__name', 'subdepartment__name', 'useinventory',
-                     'inventory', 'minimum', 'sellmethod', 'cost', 'autoprice', 'utility','price', 'usetaxes', 'taxes',
+                     'inventory', 'minimum', 'unit', 'cost', 'autoprice', 'utility','price', 'usetaxes', 'taxes',
                      'discount', 'sellprice',)
 
 

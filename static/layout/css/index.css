@@ -50,8 +50,38 @@ pre {
   margin: 20px 0;
 }
 
+label{
+  margin-top: 10px;
+}
+
+
 .no-padding-left{
   padding-left: 0;
+}
+.no-padding-right{
+  padding-right: 0;
+}
+
+.left-checkbox{
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+
+.app-container-div{
+  padding-left: 25px;
+  margin-top:60px;
+}
+
+.col-xs-10 hr{
+  border-top: 1px solid darkgoldenrod;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.title{
+  color: darkgoldenrod;
+  font-size: 18px;
 }
 
 /* line 39, ../sass/_typography.scss */

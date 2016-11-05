@@ -12,8 +12,16 @@ from django.utils.translation import gettext as _
 class ProductCreate(CreateView):
     model = Product
     template_name = 'products/create.jade'
+    success_url = '/products/'
+
+    def get_initial(self):
+        super(ProductCreate, self).get_initial()
+        company = self.request.user.profile.company_id
+        self.initial = {"company": company}
+        return self.initial
+
     fields = ['company', 'code', 'barcode', 'description', 'department', 'subdepartment', 'useinventory', 'inventory',
-              'minimum', 'sellmethod', 'cost', 'autoprice', 'utility','price', 'usetaxes', 'taxes', 'discount',
+              'minimum', 'unit', 'cost', 'autoprice', 'utility', 'price', 'usetaxes', 'taxes', 'discount',
               'sellprice']
 
 
@@ -43,11 +51,11 @@ class ProductUpdate(UpdateView):
                           {'verbose_name': queryset.model._meta.verbose_name})
         return obj
 
-    template_name = 'products/edit.jade'
+    template_name = 'products/create.jade'
     fields = ['company', 'code', 'barcode', 'description', 'department', 'subdepartment', 'useinventory', 'inventory',
-              'minimum', 'sellmethod', 'cost', 'autoprice', 'utility', 'price', 'usetaxes', 'taxes', 'discount',
+              'minimum', 'unit', 'cost', 'autoprice', 'utility', 'price', 'usetaxes', 'taxes', 'discount',
               'sellprice']
-    success_url = '/products/list/'
+    success_url = '/products/'
 
 
 class ProductDelete(DeleteView):
@@ -76,7 +84,7 @@ class ProductDelete(DeleteView):
                           {'verbose_name': queryset.model._meta.verbose_name})
         return obj
 
-    success_url = '/products/list/'
+    success_url = '/products/'
     template_name = 'products/delete.jade'
 
 

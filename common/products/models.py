@@ -7,18 +7,10 @@ from common.companies.models import Company
 
 class Product(models.Model):
 
-    Unit = 'uni'
-    Bulk = 'bul'
-    Kit = 'kit'
-
-    SELLS_CHOICES = ((Unit, 'Por Unidad'),
-                     (Bulk, 'A Granel'),
-                     (Kit, 'En Paquete(kit)'),
-                     )
-    company = models.ForeignKey(Company, null=True, verbose_name='Compañía')
+    company = models.ForeignKey(Company, null=True, blank=True, verbose_name='Compañía')
     code = models.PositiveIntegerField(verbose_name='Código', default=0)
     barcode = models.PositiveIntegerField(verbose_name='Código de Barras', blank=True, default=0)
-    description = models.CharField(max_length=255, verbose_name='Descripción del producto', default=' ')
+    description = models.CharField(max_length=255, verbose_name='Descripción del producto', null=True)
     department = models.ForeignKey('ProductDepartment', on_delete=models.SET_NULL, null=True,
                                    verbose_name='Familia', default='')
     subdepartment = models.ForeignKey('ProductSubDepartment', on_delete=models.SET_NULL, null=True,
@@ -26,7 +18,7 @@ class Product(models.Model):
     useinventory = models.BooleanField(default=False, verbose_name='Sistema de Inventarios?')
     inventory = models.FloatField(default=0, verbose_name='Existencia en Inventario')
     minimum = models.FloatField(default=0, verbose_name='Mínimo en inventario')
-    sellmethod = models.CharField(max_length=3, choices=SELLS_CHOICES, default=Unit, verbose_name='Se Vende Por')
+    unit = models.CharField(max_length=3, null=True, verbose_name='Unidad')
     cost = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name='Costo ₡')
     autoprice = models.BooleanField(default=False, verbose_name='Precio Automático?')
     utility = models.DecimalField(default=0, max_digits=5, decimal_places=2, verbose_name='Utilidad %')

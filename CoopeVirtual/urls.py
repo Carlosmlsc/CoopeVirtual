@@ -66,10 +66,7 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    url(r'products/', include('common.products.urls')),
-    url(r'products/add/$', ProductCreate.as_view(), name='product-add'),
-    url(r'products/list/$', ProductCreate.as_view(), name='product-add'),
-
+    url(r'^products/', include('common.products.urls')),
 
     url(r'^pos/$', login_required(TemplateView.as_view(template_name="poss/sale.jade"))),
     url(r'^$', login_required(TemplateView.as_view(template_name="layout/landing.jade"))),

@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import login_required
 
 
 urlpatterns = [
-    url(r'list/$', product_list, name='product_list'),
-    url(r'add/$', login_required(ProductCreate.as_view()), name='product_create'),
-    url(r'update/(?P<pk>[\w-]+)/$', login_required(ProductUpdate.as_view()), name='product_update'),
-    url(r'delete/(?P<pk>[\w-]+)/$', login_required(ProductDelete.as_view()), name='product_delete'),
+
+    url(r'^add/$', login_required(ProductCreate.as_view()), name='product_create'),
+    url(r'^delete/(?P<pk>[\w-]+)/$', login_required(ProductDelete.as_view()), name='product_delete'),
+    url(r'^(?P<pk>[\w-]+)/$', login_required(ProductUpdate.as_view()), name='product_update'),
+    url(r'^$', product_list, name='product_list'),
 
 ]
