@@ -1,0 +1,159 @@
+|{% extends "layout/base_layout.html" %}
+
+| {% load i18n static %}
+| {% load widget_tweaks %}
+
+|{% block title %}
+<title>Modificar Producto {{product.code}}</title>
+|{% endblock %}
+
+|{% block breadcrumbs %}
+|<div class="breadcrumbs col-xs-12" style="height: 30px;">
+|<a href="/">Inicio</a> &nbsp;  &rsaquo; &nbsp;  <a href="/products/">Productos</a>
+
+|&rsaquo; &nbsp;  <span class='current-text'>{{product.code}}</span>
+
+|<div id="user-tools" class="pull-right" style="margin-right: 50px;">
+|       {% block welcome-msg %}
+|        {% trans 'Welcome,' %}
+|        <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+|        {% endblock %}
+|        {% block userlinks %}
+|        {% if user.has_usable_password %}
+|        <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+|        {% endif %}
+|        <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+|        {% endblock %}
+|    </div>
+|</div>
+|{% endblock %}
+
+| {% block content %}
+
+.app-container-div
+    form(action='' method='post')
+        |{% csrf_token %}
+        input(type='text', hidden, value='{{company.id}}')#id_company
+        input(type='text', hidden, value='{{product.subdepartment.id}}')#id_sub_hidden
+
+        .row
+            //-----------------------------------------------------------------------------
+            //General data div
+            .form-group.col-xs-12.col-md-5
+                .col-xs-10.no-padding-right
+                    span.title Datos Generales:
+                    hr.intro-dividertitle
+                .col-xs-4.no-padding-right
+                    label(for='id_code') Código:
+                    input(type='text', value='{{product.code}}', style='width:70%').form-control.input-sm#id_code
+                .col-xs-5.no-padding-left
+                    label Unidad:
+                    input(type='text' , value='{{product.unit}}', maxlength=4).form-control.input-sm#id_unit
+                .col-xs-9
+                    label Descripción:
+                    input(type='text' , value='{{product.description}}',).form-control.input-sm#id_description
+
+                .col-xs-4
+                    label(for='id_code') Familia:
+                    select.form-control.input-lg#id_department
+                        |{% for department in departments %}
+                        |{% if department.id == product.department.id %}
+                        <option selected="selected", value="{{ department.id }}">{{ department.name }}</option>
+                        |{% else %}
+                        <option value="{{ department.id }}">{{ department.name }}</option>
+                        |{% endif %}
+                        |{% endfor %}
+                .col-xs-5.no-padding-right
+                    label Sub-Familia:
+                    select.form-control.input-lg#id_subdepartment
+                        | {% for subdepartment in subdepartments %}
+                        <option familia="{{ subdepartment.department.id }}" value="{{ subdepartment.id }}">{{ subdepartment.name }}</option>
+                        | {% endfor %}
+                .col-xs-9
+                    label(for='id_code') Costo:
+                    input(type='number' , value='{{product.cost}}',).form-control.input-sm#id_cost
+
+            //General data div
+            //-----------------------------------------------------------------------------
+
+            //-----------------------------------------------------------------------------
+            //Sale Data div
+            .form-group.col-xs-12.col-md-5.for-sale-div
+                .col-xs-10.no-padding-right
+                    .col-xs-5.col-sm-4.col-lg-3.no-padding-left
+                        span.title Datos Venta:
+                    .col-xs-2
+                        input(type='checkbox').left-checkbox#id_is_forsale
+                .col-xs-10.no-padding-right
+                    hr.intro-divider
+
+                .col-xs-9
+                    label(for='id_barcode') Código de barras:
+                    input(type='text').form-control.input-sm#id_barcode
+                .col-xs-4.no-padding-right
+                    label Utilidad %:
+                    input(type='number' style='width:70%').form-control.input-sm#id_utility
+                .col-xs-5.no-padding-left
+                    label Precio sin I.V:
+                    input(type='number').form-control.input-sm#id_price
+                .col-xs-4.no-padding-right
+                    label Gravado?:
+                    input(type='checkbox').checkbox.left-checkbox#id_usetaxes
+                .col-xs-5.no-padding-left
+                    label Impuestos %:
+                    input(type='number min="0" max="99,99"').form-control.input-sm#id_taxes
+                .col-xs-4.no-padding-right
+                    label Descuento %:
+                    input(type='number' style='width:70%').form-control.input-sm#id_discount
+                .col-xs-5.no-padding-left
+                    label Precio de Venta:
+                    input(type='number').form-control.input-sm#id_sellprice
+
+            //Sale Data div
+            //-----------------------------------------------------------------------------
+        .row
+            //-----------------------------------------------------------------------------
+            //inventory div
+            .form-group.col-xs-12.col-md-5.inventory-div
+                .col-xs-10.no-padding-right
+                    .col-xs-5.col-sm-4.col-lg-3.no-padding-left
+                        span.title Inventarios:
+                    .col-xs-2
+                        input(type='checkbox').left-checkbox#id_useinventory
+                .col-xs-10.no-padding-right
+                    hr.intro-divider
+                .col-xs-4.no-padding-right
+                    label Inventario Inicial:
+                    input(type='number' style='width:70%').form-control.input-sm#id_ivnentory
+                .col-xs-5.no-padding-left
+                    label Mínimo en Inventario:
+                    input(type='number').form-control.input-sm#id_minimum
+
+
+            //inventory div
+            //-----------------------------------------------------------------------------
+
+            //-----------------------------------------------------------------------------
+            //Save div
+            .form-group.col-xs-12.col-md-5
+                .col-xs-10.no-padding-right
+                    span.title Guardar:
+                    hr.intro-divider
+
+                .col-xs-8.col-md-6.col-lg-5(style='margin-top:10px')
+                     input(type='button' value='Guardar y Continuar').form-control.btn-primary#save_continue_btn
+                .col-xs-8.col-md-6.col-lg-4(style='margin-top:10px')
+                    input(type='submit' value='Guardar').form-control.btn-success#save_btn
+                .col-xs-8.col-md-6.col-lg-5(style='margin-top:10px')
+                    input(type='button' value='Eliminar').form-control.btn-danger#delete_btn
+            //Save div
+            //-----------------------------------------------------------------------------
+
+
+| {% endblock %}
+
+| {% block extrajs %}
+|   <script src="{% static 'vendor/priceFormat/js/PriceFormat.js' %}"></script>
+|   <script src="{% static 'vendor/mousetrap/js/mousetrap.min.js' %}"></script>
+|   <script src="{% static 'common/products/js/update.js' %}"></script>
+| {% endblock %}

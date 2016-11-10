@@ -34,7 +34,9 @@ from accounting.saleBills.api import SaleBillViewSet, SaleBillDetailViewSet
 from common.clients.api import ClientViewSet
 from common.companies.api import CompanyViewSet
 from common.currencies.api import CurrencyViewSet
-from common.products.api import ProductViewSet, ProductDepartmentViewSet, ProductSubDepartmentViewSet
+from common.recipes.api import RecipeViewSet, SubRecipeViewSet, RecipeDetailViewSet
+from common.products.api import ProductViewSet, ProductDepartmentViewSet, ProductSubDepartmentViewSet, \
+     ProductForSaleViewSet
 from common.profiles.api import ProfileViewSet, UserViewSet
 
 from common.products.views import ProductCreate
@@ -54,7 +56,11 @@ router.register(r'sale_bill_details', SaleBillDetailViewSet)
 router.register(r'clients', ClientViewSet)
 router.register(r'companies', CompanyViewSet)
 router.register(r'currencies', CurrencyViewSet)
+router.register(r'recipes', RecipeViewSet)
+router.register(r'recipedetails', RecipeDetailViewSet)
+router.register(r'subrecipe', SubRecipeViewSet)
 router.register(r'products', ProductViewSet)
+router.register(r'productsforsale', ProductForSaleViewSet)
 router.register(r'product_departments', ProductDepartmentViewSet)
 router.register(r'product_subdepartments', ProductSubDepartmentViewSet)
 router.register(r'profiles', ProfileViewSet)

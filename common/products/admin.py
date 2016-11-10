@@ -2,19 +2,27 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from.models import Product, ProductDepartment, ProductSubDepartment
+from.models import Product, ProductDepartment, ProductSubDepartment, ProductForSale
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
 
-    list_display = ('id', 'code', 'barcode', 'description', 'department', 'subdepartment', 'useinventory', 'inventory',
-                    'minimum', 'unit', 'cost', 'autoprice', 'utility','price', 'usetaxes', 'taxes', 'discount',
-                    'sellprice',)
+    list_display = ('id', 'code', 'description', 'department', 'subdepartment', 'useinventory', 'minimum', 'unit',
+                    'cost',)
 
-    search_fields = ('id', 'code', 'barcode', 'description', 'department__name', 'subdepartment__name', 'useinventory',
-                     'inventory', 'minimum', 'unit', 'cost', 'autoprice', 'utility','price', 'usetaxes', 'taxes',
-                     'discount', 'sellprice',)
+    search_fields = ('id', 'code', 'description', 'department', 'subdepartment', 'useinventory', 'minimum', 'unit',
+                     'cost',)
+
+
+@admin.register(ProductForSale)
+class ProductAdmin(admin.ModelAdmin):
+
+    list_display = ('id', 'code', 'company', 'product', 'barcode', 'description', 'department', 'subdepartment', 'utility', 'price',
+                   'usetaxes', 'taxes', 'discount', 'sellprice',)
+
+    search_fields = ('id', 'code', 'company', 'product__description', 'barcode', 'description', 'department', 'subdepartment', 'utility', 'price',
+                     'usetaxes', 'taxes', 'discount', 'sellprice',)
 
 
 @admin.register(ProductDepartment)

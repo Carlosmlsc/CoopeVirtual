@@ -1,0 +1,68 @@
+|{% extends "layout/base_layout.html" %}
+
+| {% load i18n static %}
+
+| {% block extrastyle %}
+|   <link rel="stylesheet" type="text/css" href="{% static "vendor/dynaTables/css/jquery.dynatable.css" %}" />
+| {% endblock %}
+
+|{% block breadcrumbs %}
+|<div class="breadcrumbs col-xs-12" style="height: 30px;">
+|<a href="/">Inicio</a> &nbsp;  &rsaquo; &nbsp;  <span class='current-text'>Productos</span>
+|<div id="user-tools" class="pull-right" style="margin-right: 50px;">
+|       {% block welcome-msg %}
+|        {% trans 'Welcome,' %}
+|        <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+|        {% endblock %}
+|        {% block userlinks %}
+|        {% if user.has_usable_password %}
+|        <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+|        {% endif %}
+|        <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+|        {% endblock %}
+|    </div>
+|</div>
+|{% endblock %}
+
+| {% block content %}
+
+.row(style="margin-top:60px; padding-left:40px").blur-div
+
+    .col-xs-11.col-sm-11.col-md-11.col-lg-11
+        div.bg-white.left-item.form-group(style='margin:10px 0 25px 0')
+            span: b Productos:
+            span.pull-right
+                a.add-link(href='/products/add/') Agregar Producto &nbsp
+                    span.fa.fa-plus
+
+        div.bg-white.left-item.product-table(style="margin-top:10px")
+            table.table.list-table
+                thead: tr(style='background-color:#333333')
+                    th Código
+                    th Descripción
+                    th Cód de Barras
+                    th Familia
+                    th Sub-Familia
+                    th Precio de venta
+                    th Impuestos
+                tbody.table-body.list-table-body
+                    |{% for product in products %}
+                    tr
+                        td: a(href='/products/{{product.code}}/') {{product.code}}
+                        td {{product.description}}
+                        td {{product.barcode}}
+                        td {{product.department.name}}
+                        td {{product.subdepartment.name}}
+                        td {{product.sellprice}}
+                        td {{product.taxes}}
+                    |{% endfor %}
+
+| {% endblock %}
+
+| {% block extrajs %}
+|   <script src="{% static 'vendor/priceFormat/js/PriceFormat.js' %}"></script>
+|   <script src="{% static 'vendor/mousetrap/js/mousetrap.min.js' %}"></script>
+|   <script src="{% static 'vendor/dynaTables/js/jquery.dynatable.js' %}"></script>
+|   <script src="{% static 'common/products/js/list.js' %}"></script>
+| {% endblock %}
+

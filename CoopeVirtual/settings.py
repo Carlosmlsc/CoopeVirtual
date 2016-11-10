@@ -47,7 +47,8 @@ INSTALLED_APPS = (
     'common.clients',
     'common.companies',
     'common.currencies',
-    'common.products.apps.ProductsConfig',
+    'common.recipes',
+    'common.products',
     'common.profiles',
     'common.suppliers',  # todo preguntar sobre proveedores
     'sales.poss',

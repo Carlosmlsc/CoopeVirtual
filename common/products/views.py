@@ -3,13 +3,17 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from common.products.models import Product
+from common.products.models import Product, ProductDepartment, ProductSubDepartment, ProductForSale
+from common.companies.models import Company
 
-from django.http import Http404
+from django.http import Http404, HttpResponse, HttpResponseServerError, JsonResponse
 from django.utils.translation import gettext as _
+from django.db import transaction
+import json
 
 
 class ProductCreate(CreateView):
+
     model = Product
     template_name = 'products/create.jade'
     success_url = '/products/'
@@ -20,9 +24,8 @@ class ProductCreate(CreateView):
         self.initial = {"company": company}
         return self.initial
 
-    fields = ['company', 'code', 'barcode', 'description', 'department', 'subdepartment', 'useinventory', 'inventory',
-              'minimum', 'unit', 'cost', 'autoprice', 'utility', 'price', 'usetaxes', 'taxes', 'discount',
-              'sellprice']
+    fields = ['company', 'code', 'description', 'department', 'subdepartment', 'useinventory',
+              'minimum', 'unit', 'cost', ]
 
 
 class ProductUpdate(UpdateView):
@@ -52,9 +55,8 @@ class ProductUpdate(UpdateView):
         return obj
 
     template_name = 'products/create.jade'
-    fields = ['company', 'code', 'barcode', 'description', 'department', 'subdepartment', 'useinventory', 'inventory',
-              'minimum', 'unit', 'cost', 'autoprice', 'utility', 'price', 'usetaxes', 'taxes', 'discount',
-              'sellprice']
+    fields = ['company', 'code', 'description', 'department', 'subdepartment', 'useinventory',
+              'minimum', 'unit', 'cost', ]
     success_url = '/products/'
 
 
@@ -89,6 +91,67 @@ class ProductDelete(DeleteView):
 
 
 @login_required
+def product_create(request):
+
+    if request.method == 'GET':
+
+        company = request.user.profile.company_id
+        departments = ProductDepartment.objects.filter(company=request.user.profile.company_id)
+        subdepartments = ProductSubDepartment.objects.filter(department__company=request.user.profile.company_id)
+
+
+        return render(request, 'products/create.jade', {'departments': departments, 'subdepartments': subdepartments,
+                                                        'company': company})
+
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        print data
+
+        company = request.user.profile.company
+        code = data['code']
+        unit = data['unit']
+        description = data['description']
+        department = ProductDepartment.objects.get(pk=data['department'])
+        subdepartment = ProductSubDepartment.objects.get(pk=data['subdepartment'])
+        cost = data['cost']
+
+        barcode = data['barcode']
+        utility = data['utility']
+        price = data['price']
+        usetaxes = data['useTaxes']
+        taxes = data['taxes']
+        discount = data['discount']
+        sellprice = data['sellprice']
+
+        product = Product(company=company, code=code, unit=unit, description=description, department=department,
+                          subdepartment=subdepartment, cost=cost)
+
+        productforsale = ProductForSale(company=company, product=product, code=code, barcode=barcode, description=department,
+                                        department=department, subdepartment=subdepartment, unit=unit,
+                                        utility=utility, price=price, usetaxes=usetaxes, taxes=taxes,
+                                        discount=discount, sellprice=sellprice)
+        try:
+            with transaction.atomic():
+
+                product.save()
+
+                if data['isForSale']:
+
+                    productforsale.save()
+
+                    return JsonResponse({'product': product.id, 'productforsale': productforsale.id})
+
+                return JsonResponse({'product': product.id, 'productforsale': productforsale.id})
+
+        except Exception as e:
+            print e
+            return HttpResponseServerError(e)
+
+
+
+@login_required
 def product_list(request):
 
     company = request.user.profile.company_id
@@ -96,3 +159,28 @@ def product_list(request):
     products = Product.objects.filter(company=company)
 
     return render(request, 'products/list.jade', {'products': products})
+
+
+@login_required
+def product_update(request, pk):
+
+    if request.method == 'GET':
+
+        company = request.user.profile.company_id
+        departments = ProductDepartment.objects.filter(company=request.user.profile.company_id)
+        subdepartments = ProductSubDepartment.objects.filter(department__company=request.user.profile.company_id)
+
+        try:
+            product = Product.objects.get(company=request.user.profile.company_id, code=pk)
+
+            try:
+                productforsale = ProductForSale.objects.get(company=request.user.profile.company_id, code=pk)
+                return render(request, 'products/update.jade', {'departments': departments, 'subdepartments': subdepartments,
+                                                            'company': company, 'product': product,
+                                                            'productforsale': productforsale})
+            except Exception as e:
+                return render(request, 'products/update.jade', {'departments': departments, 'subdepartments': subdepartments,
+                                                            'company': company, 'product': product,
+                                                            'productforsale': 0})
+        except Product.DoesNotExist:
+            raise Http404("Producto no encontrado")

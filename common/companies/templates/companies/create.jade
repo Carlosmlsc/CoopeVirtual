@@ -1,0 +1,120 @@
+|{% extends "layout/base_layout.html" %}
+
+| {% load i18n static %}
+| {% load widget_tweaks %}
+
+|{% block breadcrumbs %}
+|<div class="breadcrumbs col-xs-12" style="height: 30px;">
+|<a href="/">Inicio</a> &nbsp;  &rsaquo; &nbsp;  <a href="/products/">Productos</a>
+
+|&rsaquo; &nbsp;  <span class='current-text'>Agregar</span>
+
+|<div id="user-tools" class="pull-right" style="margin-right: 50px;">
+|       {% block welcome-msg %}
+|        {% trans 'Welcome,' %}
+|        <strong>{% firstof user.get_short_name user.get_username %}</strong>.
+|        {% endblock %}
+|        {% block userlinks %}
+|        {% if user.has_usable_password %}
+|        <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+|        {% endif %}
+|        <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+|        {% endblock %}
+|    </div>
+|</div>
+|{% endblock %}
+
+| {% block content %}
+
+.app-container-div
+    form(action='' method='post')
+        |{% csrf_token %}
+        |{{form.company | attr:"hidden"}}
+
+        .row
+            .form-group.col-xs-12.col-md-5
+                .col-xs-10.no-padding-right
+                    span.title Datos Generales:
+                    hr.intro-dividertitle
+                .col-xs-9
+                    label(for='id_code') Código:
+                    |{{form.code | add_class:"form-control input-sm"}}
+                .col-xs-9
+                    label Código de barras:
+                    |{{form.barcode| add_class:"form-control input-sm"}}
+                .col-xs-9
+                    label Descripción:
+                    |{{form.description| add_class:"form-control input-sm"}}
+                .col-xs-9
+                    label Unidad:
+                    | {{form.unit| add_class:"form-control input-sm"}}
+                .col-xs-9
+                    label(for='id_code') Familia:
+                    | {{form.department | add_class:"form-control input-lg"}}
+                .col-xs-9.no-padding-right
+                    label Sub-Familia:
+                    | {{form.subdepartment| add_class:"form-control input-lg"}}
+
+
+            .form-group.col-xs-12.col-md-5
+                .col-xs-10.no-padding-right
+                    span.title Costo y Precio:
+                    hr.intro-divider
+                .col-xs-9
+                    label(for='id_code') Costo:
+                    | {{form.cost | add_class:"form-control input-sm "}}
+                .col-xs-4.no-padding-right
+                    label Precio Automático:
+                    | {{form.autoprice| add_class:"checkbox left-checkbox"}}
+                .col-xs-5.no-padding-left
+                    label Utilidad %:
+                    | {{form.utility| add_class:"form-control input-sm"}}
+                .col-xs-9
+                    label Precio sin I.V:
+                    | {{form.price| add_class:"form-control input-sm"}}
+                .col-xs-4.no-padding-right
+                    label Usa Impuestos?:
+                    | {{form.usetaxes| add_class:"checkbox left-checkbox"}}
+                .col-xs-5.no-padding-left
+                    label Impuestos %:
+                    | {{form.taxes| add_class:"form-control input-sm"}}
+                .col-xs-9
+                    label Descuento %:
+                    | {{form.discount| add_class:"form-control input-sm"}}
+                .col-xs-9
+                    label Precio de Venta:
+                    | {{form.sellprice| add_class:"form-control input-sm"}}
+
+        .row
+            .form-group.col-xs-12.col-md-5
+                .col-xs-10.no-padding-right
+                    span.title Inventarios:
+                    hr.intro-divider
+                .col-xs-4.no-padding-right
+                    label(for='id_code') Usa Inventarios?:
+                    | {{form.useinventory | add_class:"checkbox left-checkbox"}}
+                .col-xs-5.no-padding-left
+                    label Inventario Inicial:
+                    | {{form.inventory| add_class:"form-control input-sm"}}
+                .col-xs-9
+                    label Mínimo en Inventario:
+                    | {{form.minimum| add_class:"form-control input-sm"}}
+
+
+            .form-group.col-xs-12.col-md-5
+                .col-xs-10.no-padding-right
+                    span.title Guardar:
+                    hr.intro-divider
+
+                .col-xs-12.no-padding-left.no-padding-right(style='margin-top:10px')
+                     .col-xs-10.col-md-5
+                         input(type='button' value='Guardar y Agregar Otro').form-control.btn-primary
+                .col-xs-12.no-padding-left.no-padding-right(style='margin-top:10px')
+                     .col-xs-10.col-md-5
+                             input(type='button' value='Guardar y Continuar').form-control.btn-primary
+                .col-xs-12.no-padding-left.no-padding-right(style='margin-top:10px')
+                    .col-xs-10.col-md-5
+                        input(type='submit' value='Guardar').form-control.btn-success
+
+
+| {% endblock %}
