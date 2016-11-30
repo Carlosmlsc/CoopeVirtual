@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>RESPONSIVE LAYOUT</title>
+    <link rel="stylesheet" href="/static/vendor/bootstap/css/bootstrap.min.css">
+</head>
+<body>
+<form action="">
+
+    <input type="number" class="input-1">
+
+    <input type="number" class="input-2">
+
+    <input type="number" class="input-3">
+
+    <button class="btn-submit" type="submit"> Submit</button>
+
+</form>
+
+    <script src="/static/vendor/jQuery/js/jquery-1.11.2.min.js"></script>
+
+    <script>
+        $(document).on('ready', function () {
+
+            $('.btn-submit').on('click', function () {
+
+                if($('.input-1').match(/^\d+$/)) {
+
+                    $('.input-1').style('border-color: green 1px solid')
+                }
+                else{
+                    $('.input-1').style('border-color: red 1px solid')
+                }
+
+                if($('.input-2').match(/^\d+$/)) {
+
+                    $('.input-2').style('border-color: green 1px solid')
+                }
+                else{
+                    $('.input-2').style('border-color: red 1px solid')
+                }
+
+                if($('.input-3').match(/^\d+$/)) {
+
+                    $('.input-3').style('border-color: green 1px solid')
+                }
+                else{
+                    $('.input-3').style('border-color: red 1px solid')
+                }
+
+            });
+
+        } );
+    </script>
+
+</body>
+</html>

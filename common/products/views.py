@@ -10,6 +10,7 @@ from django.http import Http404, HttpResponse, HttpResponseServerError, JsonResp
 from django.utils.translation import gettext as _
 from django.db import transaction
 import json
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class ProductCreate(CreateView):
@@ -99,15 +100,12 @@ def product_create(request):
         departments = ProductDepartment.objects.filter(company=request.user.profile.company_id)
         subdepartments = ProductSubDepartment.objects.filter(department__company=request.user.profile.company_id)
 
-
         return render(request, 'products/create.jade', {'departments': departments, 'subdepartments': subdepartments,
                                                         'company': company})
 
     if request.method == 'POST':
 
         data = json.loads(request.body)
-
-        print data
 
         company = request.user.profile.company
         code = data['code']
@@ -128,7 +126,7 @@ def product_create(request):
         product = Product(company=company, code=code, unit=unit, description=description, department=department,
                           subdepartment=subdepartment, cost=cost)
 
-        productforsale = ProductForSale(company=company, product=product, code=code, barcode=barcode, description=department,
+        productforsale = ProductForSale(company=company, product=product, code=code, barcode=barcode, description=description,
                                         department=department, subdepartment=subdepartment, unit=unit,
                                         utility=utility, price=price, usetaxes=usetaxes, taxes=taxes,
                                         discount=discount, sellprice=sellprice)
@@ -148,7 +146,6 @@ def product_create(request):
         except Exception as e:
             print e
             return HttpResponseServerError(e)
-
 
 
 @login_required
@@ -173,14 +170,110 @@ def product_update(request, pk):
         try:
             product = Product.objects.get(company=request.user.profile.company_id, code=pk)
 
-            try:
-                productforsale = ProductForSale.objects.get(company=request.user.profile.company_id, code=pk)
-                return render(request, 'products/update.jade', {'departments': departments, 'subdepartments': subdepartments,
-                                                            'company': company, 'product': product,
-                                                            'productforsale': productforsale})
-            except Exception as e:
-                return render(request, 'products/update.jade', {'departments': departments, 'subdepartments': subdepartments,
+            if product.hasforsale:
+                try:
+                    productforsale = ProductForSale.objects.get(company=request.user.profile.company_id, code=pk)
+                    return render(request, 'products/update.jade', {'departments': departments,
+                                                                    'subdepartments': subdepartments,
+                                                                    'company': company, 'product': product,
+                                                                    'productforsale': productforsale})
+                except Exception as e:
+                    return render(request, 'products/update.jade', {'departments': departments,
+                                                                    'subdepartments': subdepartments,
+                                                                    'company': company, 'product': product,
+                                                                    'productforsale': 0})
+
+            return render(request, 'products/update.jade', {'departments': departments,
+                                                            'subdepartments': subdepartments,
                                                             'company': company, 'product': product,
                                                             'productforsale': 0})
+
         except Product.DoesNotExist:
             raise Http404("Producto no encontrado")
+
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+
+        company = request.user.profile.company
+        code = data['code']
+        unit = data['unit']
+        description = data['description']
+        department = ProductDepartment.objects.get(pk=data['department'])
+        subdepartment = ProductSubDepartment.objects.get(pk=data['subdepartment'])
+        cost = data['cost']
+
+        barcode = data['barcode']
+        utility = data['utility']
+        price = data['price']
+        usetaxes = data['useTaxes']
+        taxes = data['taxes']
+        discount = data['discount']
+        sellprice = data['sellprice']
+
+        product = Product.objects.get(company=request.user.profile.company_id, code=pk)
+
+        product.company = company
+        product.code = code
+        product.unit = unit
+        product.description = description
+        product.department = department
+        product.subdepartment = subdepartment
+        product.cost = cost
+
+        if data['isForSale']:
+
+            try:
+
+                productforsale = ProductForSale.objects.get(company=request.user.profile.company_id, code=pk)
+
+                productforsale.company = company
+                productforsale.product = product
+                productforsale.code = code
+                productforsale.barcode = barcode
+                productforsale.description = description
+                productforsale.department = department
+                productforsale.subdepartment = subdepartment
+                productforsale.unit = unit
+                productforsale.utility = utility
+                productforsale.price = price
+                productforsale.usetaxes = usetaxes
+                productforsale.taxes = taxes
+                productforsale.discount = discount
+                productforsale.sellprice = sellprice
+
+            except ObjectDoesNotExist:
+
+                productforsale = ProductForSale(company=company, product=product, code=code, barcode=barcode,
+                                                description=description,
+                                                department=department, subdepartment=subdepartment, unit=unit,
+                                                utility=utility, price=price, usetaxes=usetaxes, taxes=taxes,
+                                                discount=discount, sellprice=sellprice)
+            try:
+                with transaction.atomic():
+
+                    product.save()
+
+                    if data['isForSale']:
+
+                        productforsale.save()
+
+                        return JsonResponse({'product': product.id, 'productforsale': productforsale.id})
+
+                    return JsonResponse({'product': product.id, 'productforsale': productforsale.id})
+
+            except Exception as e:
+                print e
+                return HttpResponseServerError(e)
+
+        else:
+            try:
+                with transaction.atomic():
+
+                    product.save()
+
+                    return JsonResponse({'product': product.id, 'productforsale': ''})
+
+            except Exception as e:
+                print e
+                return HttpResponseServerError(e)

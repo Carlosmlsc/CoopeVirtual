@@ -18,6 +18,8 @@ class Product(models.Model):
     minimum = models.FloatField(default=0, verbose_name='Mínimo en inventario')
     unit = models.CharField(max_length=4, null=True, verbose_name='Unidad')
     cost = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name='Costo ₡')
+    isactive = models.BooleanField(default=True, verbose_name='Activo?')
+    hasforsale = models.BooleanField(default=False, verbose_name='Es para Venta?')
 
     def __unicode__(self):
         return '%s' % self.description
@@ -48,6 +50,8 @@ class ProductForSale(models.Model):
     taxes = models.DecimalField(default=0, max_digits=4, decimal_places=2, verbose_name='Impuestos %')
     discount = models.DecimalField(default=0, max_digits=4, decimal_places=2, verbose_name='Descuento %')
     sellprice = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name='Precio de Venta ₡')
+    isactive = models.BooleanField(default=True, verbose_name='Activo?')
+    iscomposed = models.BooleanField(default=False, verbose_name='Es Compuesto?')
 
     def __unicode__(self):
         return '%s' % self.description

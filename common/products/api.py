@@ -13,7 +13,7 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ('id', 'company', 'code', 'description', 'department', 'subdepartment', 'useinventory', 'minimum', 'unit',
-                  'cost',)
+                  'cost', 'isactive', 'hasforsale')
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -29,7 +29,7 @@ class ProductForSaleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductForSale
         fields = ('id', 'company', 'product', 'code', 'barcode', 'description', 'department', 'subdepartment',
-                  'utility', 'price', 'usetaxes', 'taxes', 'discount', 'sellprice',)
+                  'utility', 'price', 'usetaxes', 'taxes', 'discount', 'sellprice', 'isactive',)
 
 
 class ProductForSaleViewSet(viewsets.ModelViewSet):

@@ -9,20 +9,20 @@ from.models import Product, ProductDepartment, ProductSubDepartment, ProductForS
 class ProductAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'code', 'description', 'department', 'subdepartment', 'useinventory', 'minimum', 'unit',
-                    'cost',)
+                    'cost', 'isactive', 'hasforsale')
 
     search_fields = ('id', 'code', 'description', 'department', 'subdepartment', 'useinventory', 'minimum', 'unit',
-                     'cost',)
+                     'cost', 'isactive', 'hasforsale')
 
 
 @admin.register(ProductForSale)
 class ProductAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'code', 'company', 'product', 'barcode', 'description', 'department', 'subdepartment', 'utility', 'price',
-                   'usetaxes', 'taxes', 'discount', 'sellprice',)
+                   'usetaxes', 'taxes', 'discount', 'sellprice', 'isactive',)
 
     search_fields = ('id', 'code', 'company', 'product__description', 'barcode', 'description', 'department', 'subdepartment', 'utility', 'price',
-                     'usetaxes', 'taxes', 'discount', 'sellprice',)
+                     'usetaxes', 'taxes', 'discount', 'sellprice', 'isactive',)
 
 
 @admin.register(ProductDepartment)

@@ -69,6 +69,8 @@ function mainCreateProduct() {
     });
 
     $("#id_subdepartment").val( $("#id_sub_hidden").val());
+    $("#id_is_forsale").trigger('change');
+
 
 
 }//MAIN FUNCTION
@@ -115,7 +117,7 @@ function saveProduct() {
 
     $.ajax({
         method: "POST",
-        url: "/products/add/",
+        url: window.location.href,
         data:JSON.stringify({
             'company': company,
             'code': $("#id_code").val(),

@@ -10,7 +10,7 @@ class ProductFilter(django_filters.FilterSet):
     class Meta:
         model = Product
         fields = ('id', 'code', 'description', 'department', 'subdepartment', 'useinventory', 'minimum', 'unit',
-                  'cost',)
+                  'cost', 'isactive', 'hasforsale')
 
 
 class ProductForSaleFilter(django_filters.FilterSet):
@@ -18,7 +18,7 @@ class ProductForSaleFilter(django_filters.FilterSet):
     class Meta:
         model = ProductForSale
         fields = ('id', 'code', 'company', 'product', 'barcode', 'description', 'department', 'subdepartment',
-                  'utility', 'price', 'usetaxes', 'taxes', 'discount', 'sellprice',)
+                  'utility', 'price', 'usetaxes', 'taxes', 'discount', 'sellprice', 'isactive',)
 
 
 class ProductDepartmentFilter(django_filters.FilterSet):

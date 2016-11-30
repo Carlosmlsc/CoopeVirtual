@@ -83,31 +83,39 @@
                     .col-xs-5.col-sm-4.col-lg-3.no-padding-left
                         span.title Datos Venta:
                     .col-xs-2
+                        | {% if product.hasforsale and productforsale.isactive %}
+                        input(type='checkbox', checked='checked').left-checkbox#id_is_forsale
+                        | {% else %}
                         input(type='checkbox').left-checkbox#id_is_forsale
+                        | {% endif %}
                 .col-xs-10.no-padding-right
                     hr.intro-divider
 
                 .col-xs-9
                     label(for='id_barcode') Código de barras:
-                    input(type='text').form-control.input-sm#id_barcode
+                    input(type='text' , value='{{productforsale.barcode}}',).form-control.input-sm#id_barcode
                 .col-xs-4.no-padding-right
                     label Utilidad %:
-                    input(type='number' style='width:70%').form-control.input-sm#id_utility
+                    input(type='number', value='{{productforsale.utility}}', style='width:70%').form-control.input-sm#id_utility
                 .col-xs-5.no-padding-left
                     label Precio sin I.V:
-                    input(type='number').form-control.input-sm#id_price
+                    input(type='number', value='{{productforsale.price}}',).form-control.input-sm#id_price
                 .col-xs-4.no-padding-right
                     label Gravado?:
+                    | {% if productforsale.usetaxes %}
+                    input(type='checkbox' checked='checked').checkbox.left-checkbox#id_usetaxes
+                    | {% else %}
                     input(type='checkbox').checkbox.left-checkbox#id_usetaxes
+                    | {% endif %}
                 .col-xs-5.no-padding-left
                     label Impuestos %:
-                    input(type='number min="0" max="99,99"').form-control.input-sm#id_taxes
+                    input(type='number', min="0", max="99,99", value='{{productforsale.taxes}}', ).form-control.input-sm#id_taxes
                 .col-xs-4.no-padding-right
                     label Descuento %:
-                    input(type='number' style='width:70%').form-control.input-sm#id_discount
+                    input(type='number' , value='{{productforsale.discount}}', style='width:70%').form-control.input-sm#id_discount
                 .col-xs-5.no-padding-left
                     label Precio de Venta:
-                    input(type='number').form-control.input-sm#id_sellprice
+                    input(type='number' , value='{{productforsale.sellprice}}',).form-control.input-sm#id_sellprice
 
             //Sale Data div
             //-----------------------------------------------------------------------------
